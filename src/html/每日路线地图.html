@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇮🇹🇨🇭 意大利瑞士旅行每日路线地图</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2AD1E7',         // 主色调 - 活力青
+                        'accent': '#FFE244',          // 辅助强调色 - 温暖黄
+                        'primary-text': '#2D3748',    // 主文本色 - 深蓝灰
+                        'secondary-text': '#718096',  // 次要文本色 - 中性灰
+                        'background': '#F7FAFC',      // 页面背景 - 淡蓝白
+                        'surface': '#FFFFFF',         // 卡片背景 - 纯白
+                        'success': '#57C794',         // 成功状态 - 薄荷绿
+                        'error': '#F45E3E',           // 错误状态 - 珊瑚红
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #2AD1E7 0%, #1AB8D1 25%, #0FA3C7 50%, #0B8BA3 75%, #076B7A 100%);
+            min-height: 100vh;
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            background: #f8f9fa;
+        }
+        
+        /* Leaflet地图样式 */
+        .leaflet-container {
+            height: 100%;
+            width: 100%;
+            border-radius: 12px;
+        }
+        
+        /* 自定义地图标记样式 */
+        .custom-marker {
+            background: linear-gradient(135deg, #2AD1E7, #1AB8D1);
+            border: 3px solid white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(42, 209, 231, 0.4);
+        }
+        
+        .custom-marker.start {
+            background: linear-gradient(135deg, #2AD1E7, #1AB8D1);
+        }
+        
+        .custom-marker.end {
+            background: linear-gradient(135deg, #FFE244, #FFD700);
+        }
+        
+        /* 路线样式 */
+        .route-line {
+            stroke: #2AD1E7;
+            stroke-width: 4;
+            stroke-opacity: 0.8;
+            fill: none;
+        }
+        
+        .route-line.walking {
+            stroke-dasharray: 10, 5;
+        }
+        
+        /* 地图控制按钮样式 */
+        .leaflet-control-zoom a {
+            background: linear-gradient(135deg, #2AD1E7, #1AB8D1);
+            color: white;
+            border: none;
+            box-shadow: 0 2px 8px rgba(42, 209, 231, 0.3);
+        }
+        
+        .leaflet-control-zoom a:hover {
+            background: linear-gradient(135deg, #1AB8D1, #0FA3C7);
+        }
+        
+        /* 弹窗样式 */
+        .leaflet-popup-content-wrapper {
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .leaflet-popup-content {
+            margin: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .popup-title {
+            color: #2D3748;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .popup-time {
+            color: #FFE244;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .popup-duration {
+            color: #718096;
+            font-size: 13px;
+        }
+        
+        /* 预订展开功能样式 */
+        .booking-item {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .booking-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+        .booking-expand-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #2AD1E7, #1AB8D1);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(42, 209, 231, 0.3);
+        }
+        .booking-expand-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 4px 12px rgba(42, 209, 231, 0.4);
+        }
+        .booking-expand-btn.expanded {
+            background: linear-gradient(135deg, #1AB8D1, #0FA3C7);
+        }
+        
+        /* 预订详情展开区域 */
+        .booking-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: linear-gradient(135deg, #F7FAFC, #EDF2F7);
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+        .booking-details.expanded {
+            max-height: 500px;
+        }
+        .booking-details-content {
+            padding: 15px;
+        }
+        .booking-screenshot {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin: 10px 0;
+        }
+        .booking-info {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 8px 0;
+            border-left: 4px solid #2AD1E7;
+        }
+        .booking-info h4 {
+            color: #2D3748;
+            margin: 0 0 8px 0;
+            font-size: 14px;
+        }
+        .booking-info p {
+            margin: 4px 0;
+            font-size: 13px;
+            color: #718096;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .map-container {
+                height: 250px;
+            }
+            .booking-expand-btn {
+                padding: 6px 10px;
+                font-size: 11px;
+                right: 5px;
+            }
+            .booking-details-content {
+                padding: 8px;
+            }
+            .booking-screenshot {
+                max-width: 100%;
+            }
+            .text-3xl {
+                font-size: 1.5rem;
+            }
+            .text-lg {
+                font-size: 1rem;
+            }
+            .p-8 {
+                padding: 1rem;
+            }
+            .grid-cols-1 {
+                gap: 0.5rem;
+            }
+            .booking-item {
+                margin-bottom: 0.5rem;
+            }
+        }
+        
+        /* 超小屏幕优化 */
+        @media (max-width: 480px) {
+            .map-container {
+                height: 200px;
+            }
+            .booking-expand-btn {
+                padding: 4px 6px;
+                font-size: 10px;
+            }
+            .text-2xl {
+                font-size: 1.25rem;
+            }
+            .p-4 {
+                padding: 0.75rem;
+            }
+            .booking-details-content {
+                padding: 6px;
+            }
+        }
+        
+        /* 触摸设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            .booking-item:hover {
+                transform: none;
+                background-color: transparent;
+            }
+            .booking-item:active {
+                background-color: #f8f9fa;
+                transform: scale(0.98);
+            }
+        }
+    </style>
+</head>
+    <body class="min-h-screen gradient-bg">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="text-center text-white mb-12">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-lg">
+                🇮🇹🇨🇭 意大利瑞士旅行每日路线地图
+            </h1>
+            <p class="text-lg sm:text-xl opacity-90">
+                13天完整行程路线规划与可视化地图
+            </p>
+        </div>
+
+        <!-- Travel Days Container -->
+        <div id="travel-days" class="space-y-8">
+            <!-- Days will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Travel itinerary data
+        const travelData = {
+            days: [
+                {
+                    id: 1,
+                    title: "🛩️ 第1天 - 出发转机",
+                    date: "10月2日 | 北京 → 迪拜",
+                    type: "flight",
+                    stats: [
+                        { value: "07:25", label: "北京起飞" },
+                        { value: "11:35", label: "迪拜到达" },
+                        { value: "4274元", label: "机票费用" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/Beijing,China/Dubai,UAE/@35.0,60.0,4z/data=!3m1!4b1!4m2!4m1!3e0",
+                    attractions: [
+                        { name: "北京首都国际机场", time: "07:25", duration: "起飞", link: "https://maps.google.com/?q=40.0799,116.6031" },
+                        { name: "迪拜国际机场", time: "11:35", duration: "到达转机", link: "https://maps.google.com/?q=25.2532,55.3657" }
+                    ],
+                    transport: [
+                        { time: "07:25", icon: "✈️", route: "北京至迪拜 - 已预订" },
+                        { time: "11:35", icon: "🏙️", route: "迪拜转机一日游" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "🏛️ 第2天 - 梵蒂冈日",
+                    date: "10月3日 | 迪拜 → 罗马",
+                    type: "attractions",
+                    stats: [
+                        { value: "25分钟", label: "总步行时间" },
+                        { value: "4个", label: "主要景点" },
+                        { value: "7小时", label: "游览时间" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/41.9064878,12.4536413/41.9021667,12.4539367/Castel+Sant%27Angelo,Rome/@41.9043272,12.4532889,16z/data=!3m1!4b1!4m2!4m1!3e2",
+                    attractions: [
+                        { name: "梵蒂冈博物馆", time: "12:00-15:00", duration: "游览3小时 | 已预订", link: "https://maps.google.com/?q=41.9064878,12.4536413" },
+                        { name: "圣彼得大教堂", time: "15:00-17:00", duration: "登顶2小时 | 已预订", link: "https://maps.google.com/?q=41.9021667,12.4539367" },
+                        { name: "圣彼得广场", time: "17:00-18:00", duration: "游览1小时", link: "https://maps.google.com/?q=41.9020,12.4542" },
+                        { name: "圣天使城堡", time: "18:00-20:00", duration: "外观拍照2小时", link: "https://maps.google.com/?q=41.9031,12.4663" }
+                    ],
+                    transport: [
+                        { time: "03:30", icon: "✈️", route: "迪拜起飞 - 已预订" },
+                        { time: "07:40", icon: "✈️", route: "罗马到达，取行李、买机场巴士票" },
+                        { time: "09:00", icon: "🏨", route: "酒店寄存行李 - 已预订" },
+                        { time: "10:00", icon: "🍽️", route: "早餐" },
+                        { time: "22:00", icon: "🏨", route: "回到酒店" }
+                    ],
+                    hotel: "San Peter Lory's Aparts",
+                    hotelLink: "https://maps.google.com/?q=41.9022,12.4539"
+                }
+                // ... 更多天的数据
+            ]
+        };
+
+        // Function to create day card HTML
+        function createDayCard(day) {
+            const statsHtml = day.stats ? day.stats.map(stat => 
+                `<div class="bg-surface p-4 rounded-lg text-center shadow-sm">
+                    <div class="text-2xl font-bold text-primary">${stat.value}</div>
+                    <div class="text-sm text-secondary-text mt-1">${stat.label}</div>
+                </div>`
+            ).join('') : '';
+
+            const attractionsHtml = day.attractions ? day.attractions.map(attraction => {
+                const isBooked = attraction.duration.includes('已预订');
+                const bookingId = `booking-${day.id}-${attraction.name.replace(/\s+/g, '-')}`;
+                
+                return `<div class="bg-surface p-4 rounded-lg border-l-4 border-primary shadow-sm ${isBooked ? 'booking-item' : ''}" ${isBooked ? `id="${bookingId}"` : ''}>
+                    <div class="font-bold text-primary-text mb-1">
+                        ${attraction.link ? `<a href="${attraction.link}" target="_blank" class="text-primary hover:text-primary-text hover:underline">${attraction.name}</a>` : attraction.name}
+                    </div>
+                    <div class="text-primary text-sm mb-1">${attraction.time}</div>
+                    <div class="text-secondary-text text-sm">${attraction.duration}</div>
+                    ${isBooked ? `
+                        <button class="booking-expand-btn" onclick="toggleBooking('${bookingId}')">
+                            📋 查看预订详情
+                        </button>
+                        <div class="booking-details" id="${bookingId}-details">
+                            <div class="booking-details-content">
+                                <div class="booking-info">
+                                    <h4>🎫 预订信息</h4>
+                                    <p><strong>景点名称:</strong> ${attraction.name}</p>
+                                    <p><strong>预订时间:</strong> ${attraction.time}</p>
+                                    <p><strong>预订状态:</strong> 已确认</p>
+                                    <p><strong>预订平台:</strong> 官方渠道</p>
+                                </div>
+                                <div class="booking-info">
+                                    <h4>📱 票务截图</h4>
+                                    <img src="示例图片.jpg" alt="预订截图" class="booking-screenshot">
+                                    <p style="text-align: center; color: #666; font-size: 12px; margin-top: 5px;">
+                                        * 实际票务截图将在后续更新
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>`;
+            }).join('') : '';
+
+            const transportHtml = day.transport ? day.transport.map(transport => {
+                const isBooked = transport.route.includes('已预订');
+                const transportId = `transport-${day.id}-${transport.time.replace(/[:\s]/g, '-')}`;
+                
+                return `<div class="flex items-center p-3 bg-surface rounded-lg mb-2 ${isBooked ? 'booking-item' : ''}" ${isBooked ? `id="${transportId}"` : ''}>
+                    <div class="text-2xl mr-4">${transport.icon}</div>
+                    <div class="flex-1">
+                        <div class="font-bold text-primary-text">${transport.time}</div>
+                        <div class="text-secondary-text text-sm">${transport.route}</div>
+                    </div>
+                    ${isBooked ? `
+                        <button class="booking-expand-btn" onclick="toggleBooking('${transportId}')">
+                            📋 查看预订
+                        </button>
+                        <div class="booking-details" id="${transportId}-details">
+                            <div class="booking-details-content">
+                                <div class="booking-info">
+                                    <h4>🎫 交通预订信息</h4>
+                                    <p><strong>出发时间:</strong> ${transport.time}</p>
+                                    <p><strong>路线:</strong> ${transport.route}</p>
+                                    <p><strong>预订状态:</strong> 已确认</p>
+                                    <p><strong>预订平台:</strong> 官方渠道</p>
+                                </div>
+                                <div class="booking-info">
+                                    <h4>📱 票务截图</h4>
+                                    <img src="示例图片.jpg" alt="交通预订截图" class="booking-screenshot">
+                                    <p style="text-align: center; color: #666; font-size: 12px; margin-top: 5px;">
+                                        * 实际票务截图将在后续更新
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>`;
+            }).join('') : '';
+
+            const mapHtml = day.mapUrl ? 
+                `<div class="map-container mb-6">
+                    <div id="map-${day.id}" class="leaflet-map"></div>
+                </div>` : '';
+
+            const hotelHtml = day.hotel ? 
+                `<div class="bg-background border-l-4 border-accent p-5 rounded-lg mt-6">
+                    <h3 class="text-primary-text font-bold mb-2 text-lg">🏨 住宿信息</h3>
+                    <div class="font-bold text-primary-text">
+                        ${day.hotelLink ? `<a href="${day.hotelLink}" target="_blank" class="text-primary hover:text-primary-text hover:underline">${day.hotel}</a>` : day.hotel}
+                    </div>
+                </div>` : '';
+
+            return `
+                <div class="bg-surface rounded-2xl shadow-xl card-hover overflow-hidden" style="background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+                    <div class="bg-gradient-to-r from-primary to-primary text-white p-6 text-center">
+                        <h2 class="text-2xl font-bold mb-2">${day.title}</h2>
+                        <div class="text-lg opacity-90">${day.date}</div>
+                    </div>
+                    <div class="p-8">
+                        ${day.stats ? `
+                            <div class="bg-background rounded-xl p-6 mb-6">
+                                <h3 class="text-primary-text font-bold mb-4 text-xl">📊 路线统计</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    ${statsHtml}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${mapHtml}
+                        
+                        ${day.attractions ? `
+                            <div class="mb-6">
+                                <h3 class="text-primary-text font-bold mb-4 text-xl">📍 主要景点</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    ${attractionsHtml}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${day.transport ? `
+                            <div class="bg-background rounded-xl p-6">
+                                <h3 class="text-primary-text font-bold mb-4 text-xl">🚂 交通信息</h3>
+                                ${transportHtml}
+                            </div>
+                        ` : ''}
+                        
+                        ${hotelHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to render all days
+        function renderDays() {
+            const container = document.getElementById('travel-days');
+            container.innerHTML = travelData.days.map(day => createDayCard(day)).join('');
+        }
+
+        // 预订展开功能
+        function toggleBooking(bookingId) {
+            const detailsElement = document.getElementById(bookingId + '-details');
+            const buttonElement = document.querySelector(`#${bookingId} .booking-expand-btn`);
+            
+            if (detailsElement && buttonElement) {
+                const isExpanded = detailsElement.classList.contains('expanded');
+                
+                if (isExpanded) {
+                    // 收起
+                    detailsElement.classList.remove('expanded');
+                    buttonElement.textContent = '📋 查看预订详情';
+                    buttonElement.classList.remove('expanded');
+                } else {
+                    // 展开
+                    detailsElement.classList.add('expanded');
+                    buttonElement.textContent = '📋 收起详情';
+                    buttonElement.classList.add('expanded');
+                }
+            }
+        }
+
+        // 移动端触摸优化
+        function addTouchSupport() {
+            const bookingItems = document.querySelectorAll('.booking-item');
+            bookingItems.forEach(item => {
+                item.addEventListener('touchstart', function(e) {
+                    this.style.transform = 'scale(0.98)';
+                });
+                
+                item.addEventListener('touchend', function(e) {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        }
+
+        // 搜索功能
+        function addSearchFunction() {
+            const searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.placeholder = '🔍 搜索景点、城市或关键词...';
+            searchInput.className = 'w-full p-4 mb-6 rounded-xl border-2 border-primary focus:border-accent focus:outline-none text-lg';
+            searchInput.style.background = 'rgba(255, 255, 255, 0.9)';
+            
+            const header = document.querySelector('.text-center.text-white.mb-12');
+            header.appendChild(searchInput);
+            
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const dayCards = document.querySelectorAll('.bg-surface.rounded-2xl');
+                
+                dayCards.forEach(card => {
+                    const cardText = card.textContent.toLowerCase();
+                    if (cardText.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = searchTerm ? 'none' : 'block';
+                    }
+                });
+            });
+        }
+
+        // 收藏功能
+        function addFavoriteFunction() {
+            const favoriteButton = document.createElement('button');
+            favoriteButton.innerHTML = '❤️ 收藏行程';
+            favoriteButton.className = 'bg-surface text-primary px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 mb-4';
+            favoriteButton.onclick = function() {
+                if (navigator.share) {
+                    navigator.share({
+                        title: '🇮🇹🇨🇭 意大利瑞士13天旅行路书',
+                        text: '查看我的详细旅行计划，包含所有景点、路线和预订信息！',
+                        url: window.location.href
+                    });
+                } else {
+                    // 复制链接到剪贴板
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        alert('链接已复制到剪贴板！');
+                    });
+                }
+            };
+            
+            const header = document.querySelector('.text-center.text-white.mb-12');
+            header.appendChild(favoriteButton);
+        }
+
+        // 添加返回顶部按钮
+        function addBackToTopButton() {
+            const backToTopBtn = document.createElement('button');
+            backToTopBtn.innerHTML = '⬆️';
+            backToTopBtn.className = 'fixed bottom-6 right-6 bg-primary text-white w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-50';
+            backToTopBtn.style.display = 'none';
+            backToTopBtn.onclick = function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+            
+            document.body.appendChild(backToTopBtn);
+            
+            // 监听滚动事件
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.style.display = 'block';
+                } else {
+                    backToTopBtn.style.display = 'none';
+                }
+            });
+        }
+
+        // 添加键盘快捷键支持
+        function addKeyboardShortcuts() {
+            document.addEventListener('keydown', function(e) {
+                // Ctrl/Cmd + F 聚焦搜索框
+                if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                    e.preventDefault();
+                    const searchInput = document.querySelector('input[type="text"]');
+                    if (searchInput) {
+                        searchInput.focus();
+                    }
+                }
+                
+                // ESC 键清除搜索
+                if (e.key === 'Escape') {
+                    const searchInput = document.querySelector('input[type="text"]');
+                    if (searchInput) {
+                        searchInput.value = '';
+                        searchInput.dispatchEvent(new Event('input'));
+                    }
+                }
+            });
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderDays();
+            addTouchSupport();
+            addSearchFunction();
+            addFavoriteFunction();
+            addBackToTopButton();
+            addKeyboardShortcuts();
+        });
+    </script>
+</body>
+</html>
