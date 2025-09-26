@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;family=Noto+Serif+SC:wght@400;700" rel="stylesheet"/>
+<title>Wanderlust Itinerary</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        :root {
+            --primary-color: #374151;
+            --secondary-color: #9CA3AF;
+            --background-light: #F9FAFB;
+            --background-dark: #111827;
+            --text-light: #1F2937;
+            --text-dark: #F3F4F6;
+            --border-color: #E5E7EB;
+            --card-bg-light: #FFFFFF;
+            --card-bg-dark: #1F2937;
+        }
+        .dark {
+            --primary-color: #D1D5DB;
+            --secondary-color: #6B7280;
+            --background-light: #111827;
+            --background-dark: #F9FAFB;
+            --text-light: #F3F4F6;
+            --text-dark: #1F2937;
+            --border-color: #374151;
+            --card-bg-light: #1F2937;
+            --card-bg-dark: #FFFFFF;
+        }
+        body {
+            background-color: var(--background-light);
+            color: var(--text-light);
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .dark body {
+            background-color: var(--background-dark);
+            color: var(--text-dark);
+        }
+        .font-serif {
+            font-family: 'Noto Serif SC', serif;
+        }
+        .bg-primary {
+            background-color: var(--primary-color);
+        }
+        .text-primary {
+            color: var(--primary-color);
+        }
+        .text-secondary {
+            color: var(--secondary-color);
+        }
+        .border-custom {
+            border-color: var(--border-color);
+        }
+        .nav-item.active {
+            background-color: var(--primary-color);
+            color: var(--background-light);
+        }
+        .dark .nav-item.active {
+            color: var(--background-dark);
+        }
+        .card-bg {
+            background-color: var(--card-bg-light);
+        }
+        .dark .card-bg {
+            background-color: var(--card-bg-dark);
+        }
+        @media (max-width: 1024px) {
+            .mobile-nav {
+                display: flex;
+            }
+            .desktop-nav {
+                display: none;
+            }
+        }
+    </style>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        function toggleDetails(element) {
+            const details = element.nextElementSibling;
+            const icon = element.querySelector('.material-symbols-outlined');
+            if (details.style.maxHeight) {
+                details.style.maxHeight = null;
+                icon.textContent = 'expand_more';
+            } else {
+                details.style.maxHeight = details.scrollHeight + "px";
+                icon.textContent = 'expand_less';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+            });
+            const sections = document.querySelectorAll('div[id^="day-"]');
+            const navItems = document.querySelectorAll('.nav-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navItems.forEach(item => {
+                            if (item.getAttribute('href').substring(1) === entry.target.id) {
+                                item.classList.add('active');
+                            } else {
+                                item.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+            }, { threshold: 0.5 }); 
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</head>
+<body class="font-sans">
+<div class="flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-20 border-b border-custom bg-[var(--background-light)]/90 px-4 py-4 backdrop-blur-lg dark:bg-[var(--background-dark)]/90 sm:px-6 md:px-10">
+<div class="mx-auto flex max-w-7xl items-center justify-between">
+<div class="flex items-center gap-4">
+<svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+<h1 class="font-serif text-3xl font-bold tracking-tight text-[var(--text-light)] dark:text-[var(--text-dark)]">European Grand Tour</h1>
+</div>
+<button class="rounded-full p-2 transition-colors duration-200 hover:bg-gray-200 dark:hover:bg-gray-700" id="theme-toggle">
+<span class="material-symbols-outlined text-[var(--text-light)] dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined text-[var(--text-dark)] hidden dark:inline">light_mode</span>
+</button>
+</div>
+</header>
+<main class="flex-1">
+<div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:px-10 lg:grid lg:grid-cols-12 lg:gap-8">
+<aside class="desktop-nav sticky top-28 hidden h-fit lg:col-span-3 lg:block">
+<nav class="space-y-2">
+<h3 class="px-3 text-sm font-semibold uppercase text-secondary">Quick Navigation</h3>
+<a class="nav-item group flex items-center rounded-md px-3 py-2 text-lg font-medium text-[var(--text-light)] transition-colors duration-200 hover:bg-[var(--primary-color)] hover:text-[var(--background-light)] dark:text-[var(--text-dark)] dark:hover:text-[var(--background-dark)]" href="#day-1">Day 1-2: Paris</a>
+<a class="nav-item group flex items-center rounded-md px-3 py-2 text-lg font-medium text-[var(--text-light)] transition-colors duration-200 hover:bg-[var(--primary-color)] hover:text-[var(--background-light)] dark:text-[var(--text-dark)] dark:hover:text-[var(--background-dark)]" href="#day-3">Day 3-5: Rome</a>
+<a class="nav-item group flex items-center rounded-md px-3 py-2 text-lg font-medium text-[var(--text-light)] transition-colors duration-200 hover:bg-[var(--primary-color)] hover:text-[var(--background-light)] dark:text-[var(--text-dark)] dark:hover:text-[var(--background-dark)]" href="#day-6">Day 6-10: Barcelona</a>
+</nav>
+</aside>
+<div class="lg:col-span-9">
+<div class="mb-16 text-center">
+<p class="mb-2 text-lg font-medium text-secondary">An Unforgettable Journey</p>
+<h2 class="font-serif text-5xl font-bold tracking-tight text-[var(--text-light)] dark:text-[var(--text-dark)]">Trip to Europe</h2>
+<p class="mt-4 text-xl font-light text-[var(--text-light)]/80 dark:text-[var(--text-dark)]/80">September 15 - September 25, 2024</p>
+</div>
+<div class="mobile-nav fixed bottom-0 left-0 z-30 w-full border-t border-custom bg-[var(--background-light)]/95 p-2 backdrop-blur-sm dark:bg-[var(--background-dark)]/95 lg:hidden">
+<div class="mx-auto flex justify-around">
+<a class="nav-item flex flex-1 flex-col items-center justify-center rounded-md px-2 py-1 text-xs font-medium text-[var(--text-light)] transition-colors duration-200 hover:bg-[var(--primary-color)] hover:text-[var(--background-light)] dark:text-[var(--text-dark)] dark:hover:text-[var(--background-dark)] sm:text-sm" href="#day-1">
+<span class="material-symbols-outlined mb-0.5">location_city</span>
+<span>Paris</span>
+</a>
+<a class="nav-item flex flex-1 flex-col items-center justify-center rounded-md px-2 py-1 text-xs font-medium text-[var(--text-light)] transition-colors duration-200 hover:bg-[var(--primary-color)] hover:text-[var(--background-light)] dark:text-[var(--text-dark)] dark:hover:text-[var(--background-dark)] sm:text-sm" href="#day-3">
+<span class="material-symbols-outlined mb-0.5">location_city</span>
+<span>Rome</span>
+</a>
+<a class="nav-item flex flex-1 flex-col items-center justify-center rounded-md px-2 py-1 text-xs font-medium text-[var(--text-light)] transition-colors duration-200 hover:bg-[var(--primary-color)] hover:text-[var(--background-light)] dark:text-[var(--text-dark)] dark:hover:text-[var(--background-dark)] sm:text-sm" href="#day-6">
+<span class="material-symbols-outlined mb-0.5">location_city</span>
+<span>Barcelona</span>
+</a>
+</div>
+</div>
+<div class="space-y-24">
+<div class="grid scroll-mt-24 grid-cols-1 gap-16 lg:grid-cols-3" id="day-1">
+<div class="lg:col-span-1">
+<h3 class="font-serif text-4xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Day 1-2</h3>
+<p class="mt-2 text-2xl font-light text-secondary">Paris, France</p>
+<div class="mt-8 space-y-4 text-lg">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl text-primary">attractions</span>
+<span>3 Attractions</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl text-primary">location_city</span>
+<span>1 City</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl text-primary">flight</span>
+<span>Plane Travel</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl text-primary">confirmation_number</span>
+<span>1 Ticketed</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-2">
+<div class="mb-8 rounded-2xl border border-custom card-bg p-6 shadow-lg">
+<h4 class="mb-4 font-serif text-2xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Travel Route</h4>
+<div class="aspect-w-16 aspect-h-9 overflow-hidden rounded-lg">
+<img alt="Map of Paris travel route" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1wzMde9bpBx-Y8a8g2s3j2gjn4wK1rMN5I5YdwHvC1V03S1pBERfViao-6x9ORIzvDmEiGWZl_TCrnhOPrJGquhjEDTrvwPa6WePYV2jBR2WP8tUm3LFJKQKT-LFexHjmcYfaERGtMpxwzWPRrVrbCbRsozRyqiqBYKImvSln8uBRS4lA3vPoUK0VGehz5PS4WwQUauZ98mwS8ZYftN4uXiS-bobPiPoxEeCIS-rrdCJqThWrnkcRyUuMWFLn6YelizcnGBZwfYco"/>
+</div>
+</div>
+<div class="space-y-6">
+<div class="rounded-xl border border-custom card-bg transition-shadow duration-300 hover:shadow-xl">
+<button class="flex w-full cursor-pointer items-center justify-between p-6 text-left" onclick="toggleDetails(this)">
+<div class="flex items-center gap-6">
+<div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[var(--background-light)] text-lg font-bold text-primary dark:bg-[var(--background-dark)]">09:00</div>
+<p class="font-serif text-xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Eiffel Tower</p>
+</div>
+<span class="material-symbols-outlined text-3xl text-secondary">expand_more</span>
+</button>
+<div class="overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0;">
+<div class="border-t border-custom px-6 pb-6 pt-4">
+<p class="text-lg font-light text-[var(--text-light)]/80 dark:text-[var(--text-dark)]/80">Get there early to avoid long queues. Pre-booked tickets are essential for a smooth experience.</p>
+</div>
+</div>
+</div>
+<div class="rounded-xl border border-custom card-bg transition-shadow duration-300 hover:shadow-xl">
+<button class="flex w-full cursor-pointer items-center justify-between p-6 text-left" onclick="toggleDetails(this)">
+<div class="flex items-center gap-6">
+<div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[var(--background-light)] text-lg font-bold text-primary dark:bg-[var(--background-dark)]">13:00</div>
+<p class="font-serif text-xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Lunch at Le Procope</p>
+</div>
+<span class="material-symbols-outlined text-3xl text-secondary">expand_more</span>
+</button>
+<div class="overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0;">
+<div class="border-t border-custom px-6 pb-6 pt-4">
+<p class="text-lg font-light text-[var(--text-light)]/80 dark:text-[var(--text-dark)]/80">One of the oldest and most historic cafes in Paris. Reservations are highly recommended.</p>
+</div>
+</div>
+</div>
+<div class="rounded-xl border border-custom card-bg transition-shadow duration-300 hover:shadow-xl">
+<button class="flex w-full cursor-pointer items-center justify-between p-6 text-left" onclick="toggleDetails(this)">
+<div class="flex items-center gap-6">
+<div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[var(--background-light)] text-lg font-bold text-primary dark:bg-[var(--background-dark)]">15:00</div>
+<p class="font-serif text-xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Louvre Museum</p>
+</div>
+<span class="material-symbols-outlined text-3xl text-secondary">expand_more</span>
+</button>
+<div class="overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0;">
+<div class="border-t border-custom px-6 pb-6 pt-4">
+<p class="text-lg font-light text-[var(--text-light)]/80 dark:text-[var(--text-dark)]/80">Home to the Mona Lisa. Consider a guided tour to navigate the vast collection efficiently.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid scroll-mt-24 grid-cols-1 gap-16 lg:grid-cols-3" id="day-3">
+<div class="lg:col-span-1">
+<h3 class="font-serif text-4xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Day 3-5</h3>
+<p class="mt-2 text-2xl font-light text-secondary">Rome, Italy</p>
+<div class="mt-8 space-y-4 text-lg">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl text-primary">attractions</span>
+<span>3 Attractions</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl text-primary">location_city</span>
+<span>1 City</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl text-primary">train</span>
+<span>Train Travel</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl text-primary">confirmation_number</span>
+<span>1 Ticketed</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-2">
+<div class="mb-8 rounded-2xl border border-custom card-bg p-6 shadow-lg">
+<h4 class="mb-4 font-serif text-2xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Travel Route</h4>
+<div class="aspect-w-16 aspect-h-9 overflow-hidden rounded-lg">
+<img alt="Map of Rome travel route" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM3eb_-f30Nx8uuwBHpa143xq9nXbydWAT84gPB29Wh0X4tG6TUR12w5rEQ1Sgkh9kTE0nhfMFJoZMVo9-No6dyzd4QG47H1TTohzfSKLNbf6sopSzMeozBtjYnHOyC-nBVlQWiMxcTZ9mD83acyiAHxblaC_vEj5gvN2yTnI0IZWM3-3wY-4AIFLpRrEJVjtNGzB3YxcG_22NSJE0Y4E3joCrVNMw-Wi3ltxy6Nhl5SrG_wOEXLSB6FtivMw0kGDwicB9XQDbAqpL"/>
+</div>
+</div>
+<div class="space-y-6">
+<div class="rounded-xl border border-custom card-bg transition-shadow duration-300 hover:shadow-xl">
+<button class="flex w-full cursor-pointer items-center justify-between p-6 text-left" onclick="toggleDetails(this)">
+<div class="flex items-center gap-6">
+<div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[var(--background-light)] text-lg font-bold text-primary dark:bg-[var(--background-dark)]">10:00</div>
+<p class="font-serif text-xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Colosseum</p>
+</div>
+<span class="material-symbols-outlined text-3xl text-secondary">expand_more</span>
+</button>
+<div class="overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0;">
+<div class="border-t border-custom px-6 pb-6 pt-4">
+<p class="text-lg font-light text-[var(--text-light)]/80 dark:text-[var(--text-dark)]/80">Book tickets in advance online to skip the long entry lines.</p>
+</div>
+</div>
+</div>
+<div class="rounded-xl border border-custom card-bg transition-shadow duration-300 hover:shadow-xl">
+<button class="flex w-full cursor-pointer items-center justify-between p-6 text-left" onclick="toggleDetails(this)">
+<div class="flex items-center gap-6">
+<div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[var(--background-light)] text-lg font-bold text-primary dark:bg-[var(--background-dark)]">14:00</div>
+<p class="font-serif text-xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Roman Forum &amp; Palatine Hill</p>
+</div>
+<span class="material-symbols-outlined text-3xl text-secondary">expand_more</span>
+</button>
+<div class="overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0;">
+<div class="border-t border-custom px-6 pb-6 pt-4">
+<p class="text-lg font-light text-[var(--text-light)]/80 dark:text-[var(--text-dark)]/80">A single ticket includes access to both sites. Wear comfortable shoes.</p>
+</div>
+</div>
+</div>
+<div class="rounded-xl border border-custom card-bg transition-shadow duration-300 hover:shadow-xl">
+<button class="flex w-full cursor-pointer items-center justify-between p-6 text-left" onclick="toggleDetails(this)">
+<div class="flex items-center gap-6">
+<div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[var(--background-light)] text-lg font-bold text-primary dark:bg-[var(--background-dark)]">19:00</div>
+<p class="font-serif text-xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Dinner in Trastevere</p>
+</div>
+<span class="material-symbols-outlined text-3xl text-secondary">expand_more</span>
+</button>
+<div class="overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0;">
+<div class="border-t border-custom px-6 pb-6 pt-4">
+<p class="text-lg font-light text-[var(--text-light)]/80 dark:text-[var(--text-dark)]/80">A charming and picturesque neighborhood known for its excellent restaurants.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid scroll-mt-24 grid-cols-1 gap-16 lg:grid-cols-3" id="day-6">
+<div class="lg:col-span-1">
+<h3 class="font-serif text-4xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Day 6-10</h3>
+<p class="mt-2 text-2xl font-light text-secondary">Barcelona, Spain</p>
+<div class="mt-8 space-y-4 text-lg">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl text-primary">attractions</span>
+<span>3 Attractions</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl text-primary">location_city</span>
+<span>1 City</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl text-primary">flight_takeoff</span>
+<span>Plane Travel</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-2xl text-primary">confirmation_number</span>
+<span>2 Ticketed</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-2">
+<div class="mb-8 rounded-2xl border border-custom card-bg p-6 shadow-lg">
+<h4 class="mb-4 font-serif text-2xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Travel Route</h4>
+<div class="aspect-w-16 aspect-h-9 overflow-hidden rounded-lg">
+<img alt="Map of Barcelona travel route" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuxaQc_Ti4BRIKXoSapkUNlTU0ZdQX3lbeRth89Rgs24q2T4ewfL79rHA-7Skl1dM9GPSiL5O4Vk6MRwXnh_DuSeDTUKRy4_SIZIhiDZH37AUpKNT95rgbt2UJPj0cRXy4FjNj48Flo9vUjS5sp0ABbN6_euG4-psJ3UKEUxBB92q7pT-zaC58LOkP53AG5lWb8mGRx8VTqrSpU0L41cBsj-Ye0GsCIApVoE09-_0P6WXMIjU_wHNMrNN7FYNPJIhM88bxt-4FRwCL"/>
+</div>
+</div>
+<div class="space-y-6">
+<div class="rounded-xl border border-custom card-bg transition-shadow duration-300 hover:shadow-xl">
+<button class="flex w-full cursor-pointer items-center justify-between p-6 text-left" onclick="toggleDetails(this)">
+<div class="flex items-center gap-6">
+<div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[var(--background-light)] text-lg font-bold text-primary dark:bg-[var(--background-dark)]">11:00</div>
+<p class="font-serif text-xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Sagrada Familia</p>
+</div>
+<span class="material-symbols-outlined text-3xl text-secondary">expand_more</span>
+</button>
+<div class="overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0;">
+<div class="border-t border-custom px-6 pb-6 pt-4">
+<p class="text-lg font-light text-[var(--text-light)]/80 dark:text-[var(--text-dark)]/80">Gaudí's unfinished masterpiece. It's essential to book tickets well in advance.</p>
+</div>
+</div>
+</div>
+<div class="rounded-xl border border-custom card-bg transition-shadow duration-300 hover:shadow-xl">
+<button class="flex w-full cursor-pointer items-center justify-between p-6 text-left" onclick="toggleDetails(this)">
+<div class="flex items-center gap-6">
+<div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[var(--background-light)] text-lg font-bold text-primary dark:bg-[var(--background-dark)]">15:00</div>
+<p class="font-serif text-xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Park Güell</p>
+</div>
+<span class="material-symbols-outlined text-3xl text-secondary">expand_more</span>
+</button>
+<div class="overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0;">
+<div class="border-t border-custom px-6 pb-6 pt-4">
+<p class="text-lg font-light text-[var(--text-light)]/80 dark:text-[var(--text-dark)]/80">Enjoy the whimsical architecture and panoramic city views. Ticketed entry for the monumental zone.</p>
+</div>
+</div>
+</div>
+<div class="rounded-xl border border-custom card-bg transition-shadow duration-300 hover:shadow-xl">
+<button class="flex w-full cursor-pointer items-center justify-between p-6 text-left" onclick="toggleDetails(this)">
+<div class="flex items-center gap-6">
+<div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[var(--background-light)] text-lg font-bold text-primary dark:bg-[var(--background-dark)]">20:00</div>
+<p class="font-serif text-xl font-bold text-[var(--text-light)] dark:text-[var(--text-dark)]">Tapas in the Gothic Quarter</p>
+</div>
+<span class="material-symbols-outlined text-3xl text-secondary">expand_more</span>
+</button>
+<div class="overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0;">
+<div class="border-t border-custom px-6 pb-6 pt-4">
+<p class="text-lg font-light text-[var(--text-light)]/80 dark:text-[var(--text-dark)]/80">Explore the labyrinthine streets and discover authentic tapas bars.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇮🇹🇨🇭 意大利瑞士旅行每日路线地图</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2AD1E7',         // 主色调 - 活力青
+                        'accent': '#FFE244',          // 辅助强调色 - 温暖黄
+                        'primary-text': '#2D3748',    // 主文本色 - 深蓝灰
+                        'secondary-text': '#718096',  // 次要文本色 - 中性灰
+                        'background': '#F7FAFC',      // 页面背景 - 淡蓝白
+                        'surface': '#FFFFFF',         // 卡片背景 - 纯白
+                        'success': '#57C794',         // 成功状态 - 薄荷绿
+                        'error': '#F45E3E',           // 错误状态 - 珊瑚红
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #2AD1E7 0%, #1AB8D1 25%, #0FA3C7 50%, #0B8BA3 75%, #076B7A 100%);
+            min-height: 100vh;
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            background: #f8f9fa;
+        }
+        
+        /* Leaflet地图样式 */
+        .leaflet-container {
+            height: 100%;
+            width: 100%;
+            border-radius: 12px;
+        }
+        
+        /* 自定义地图标记样式 */
+        .custom-marker {
+            background: linear-gradient(135deg, #2AD1E7, #1AB8D1);
+            border: 3px solid white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(42, 209, 231, 0.4);
+        }
+        
+        .custom-marker.start {
+            background: linear-gradient(135deg, #2AD1E7, #1AB8D1);
+        }
+        
+        .custom-marker.end {
+            background: linear-gradient(135deg, #FFE244, #FFD700);
+        }
+        
+        /* 路线样式 */
+        .route-line {
+            stroke: #2AD1E7;
+            stroke-width: 4;
+            stroke-opacity: 0.8;
+            fill: none;
+        }
+        
+        .route-line.walking {
+            stroke-dasharray: 10, 5;
+        }
+        
+        /* 地图控制按钮样式 */
+        .leaflet-control-zoom a {
+            background: linear-gradient(135deg, #2AD1E7, #1AB8D1);
+            color: white;
+            border: none;
+            box-shadow: 0 2px 8px rgba(42, 209, 231, 0.3);
+        }
+        
+        .leaflet-control-zoom a:hover {
+            background: linear-gradient(135deg, #1AB8D1, #0FA3C7);
+        }
+        
+        /* 弹窗样式 */
+        .leaflet-popup-content-wrapper {
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .leaflet-popup-content {
+            margin: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .popup-title {
+            color: #2D3748;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .popup-time {
+            color: #FFE244;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .popup-duration {
+            color: #718096;
+            font-size: 13px;
+        }
+        
+        /* 预订展开功能样式 */
+        .booking-item {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .booking-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+        .booking-expand-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #2AD1E7, #1AB8D1);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(42, 209, 231, 0.3);
+        }
+        .booking-expand-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 4px 12px rgba(42, 209, 231, 0.4);
+        }
+        .booking-expand-btn.expanded {
+            background: linear-gradient(135deg, #1AB8D1, #0FA3C7);
+        }
+        
+        /* 预订详情展开区域 */
+        .booking-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: linear-gradient(135deg, #F7FAFC, #EDF2F7);
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+        .booking-details.expanded {
+            max-height: 500px;
+        }
+        .booking-details-content {
+            padding: 15px;
+        }
+        .booking-screenshot {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin: 10px 0;
+        }
+        .booking-info {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 8px 0;
+            border-left: 4px solid #2AD1E7;
+        }
+        .booking-info h4 {
+            color: #2D3748;
+            margin: 0 0 8px 0;
+            font-size: 14px;
+        }
+        .booking-info p {
+            margin: 4px 0;
+            font-size: 13px;
+            color: #718096;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .map-container {
+                height: 250px;
+            }
+            .booking-expand-btn {
+                padding: 6px 10px;
+                font-size: 11px;
+                right: 5px;
+            }
+            .booking-details-content {
+                padding: 8px;
+            }
+            .booking-screenshot {
+                max-width: 100%;
+            }
+            .text-3xl {
+                font-size: 1.5rem;
+            }
+            .text-lg {
+                font-size: 1rem;
+            }
+            .p-8 {
+                padding: 1rem;
+            }
+            .grid-cols-1 {
+                gap: 0.5rem;
+            }
+            .booking-item {
+                margin-bottom: 0.5rem;
+            }
+        }
+        
+        /* 超小屏幕优化 */
+        @media (max-width: 480px) {
+            .map-container {
+                height: 200px;
+            }
+            .booking-expand-btn {
+                padding: 4px 6px;
+                font-size: 10px;
+            }
+            .text-2xl {
+                font-size: 1.25rem;
+            }
+            .p-4 {
+                padding: 0.75rem;
+            }
+            .booking-details-content {
+                padding: 6px;
+            }
+        }
+        
+        /* 触摸设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            .booking-item:hover {
+                transform: none;
+                background-color: transparent;
+            }
+            .booking-item:active {
+                background-color: #f8f9fa;
+                transform: scale(0.98);
+            }
+        }
+    </style>
+</head>
+    <body class="min-h-screen gradient-bg">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="text-center text-white mb-12">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 drop-shadow-lg">
+                🇮🇹🇨🇭 意大利瑞士旅行每日路线地图
+            </h1>
+            <p class="text-lg sm:text-xl opacity-90">
+                13天完整行程路线规划与可视化地图
+            </p>
+        </div>
+
+        <!-- Travel Days Container -->
+        <div id="travel-days" class="space-y-8">
+            <!-- Days will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Travel itinerary data
+        const travelData = {
+            days: [
+                {
+                    id: 1,
+                    title: "🛩️ 第1天 - 出发转机",
+                    date: "10月2日 | 北京 → 迪拜",
+                    type: "flight",
+                    stats: [
+                        { value: "07:25", label: "北京起飞" },
+                        { value: "11:35", label: "迪拜到达" },
+                        { value: "4274元", label: "机票费用" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/Beijing,China/Dubai,UAE/@35.0,60.0,4z/data=!3m1!4b1!4m2!4m1!3e0",
+                    attractions: [
+                        { name: "北京首都国际机场", time: "07:25", duration: "起飞", link: "https://maps.google.com/?q=40.0799,116.6031" },
+                        { name: "迪拜国际机场", time: "11:35", duration: "到达转机", link: "https://maps.google.com/?q=25.2532,55.3657" }
+                    ],
+                    transport: [
+                        { time: "07:25", icon: "✈️", route: "北京至迪拜 - 已预订" },
+                        { time: "11:35", icon: "🏙️", route: "迪拜转机一日游" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "🏛️ 第2天 - 梵蒂冈日",
+                    date: "10月3日 | 迪拜 → 罗马",
+                    type: "attractions",
+                    stats: [
+                        { value: "25分钟", label: "总步行时间" },
+                        { value: "4个", label: "主要景点" },
+                        { value: "7小时", label: "游览时间" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/41.9064878,12.4536413/41.9021667,12.4539367/Castel+Sant%27Angelo,Rome/@41.9043272,12.4532889,16z/data=!3m1!4b1!4m2!4m1!3e2",
+                    attractions: [
+                        { name: "梵蒂冈博物馆", time: "12:00-15:00", duration: "游览3小时 | 已预订", link: "https://maps.google.com/?q=41.9064878,12.4536413" },
+                        { name: "圣彼得大教堂", time: "15:00-17:00", duration: "登顶2小时 | 已预订", link: "https://maps.google.com/?q=41.9021667,12.4539367" },
+                        { name: "圣彼得广场", time: "17:00-18:00", duration: "游览1小时", link: "https://maps.google.com/?q=41.9020,12.4542" },
+                        { name: "圣天使城堡", time: "18:00-20:00", duration: "外观拍照2小时", link: "https://maps.google.com/?q=41.9031,12.4663" }
+                    ],
+                    transport: [
+                        { time: "03:30", icon: "✈️", route: "迪拜起飞 - 已预订" },
+                        { time: "07:40", icon: "✈️", route: "罗马到达，取行李、买机场巴士票" },
+                        { time: "09:00", icon: "🏨", route: "酒店寄存行李 - 已预订" },
+                        { time: "10:00", icon: "🍽️", route: "早餐" },
+                        { time: "22:00", icon: "🏨", route: "回到酒店" }
+                    ],
+                    hotel: "San Peter Lory's Aparts",
+                    hotelLink: "https://maps.google.com/?q=41.9022,12.4539"
+                },
+                {
+                    id: 3,
+                    title: "🏟️ 第3天 - 罗马古迹日",
+                    date: "10月4日 | 罗马",
+                    type: "attractions",
+                    stats: [
+                        { value: "45分钟", label: "总步行时间" },
+                        { value: "6个", label: "主要景点" },
+                        { value: "12小时", label: "游览时间" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/41.8902102,12.4922309/Roman+Forum,Rome/Piazza+Venezia,Rome/41.8986108,12.4768729/Piazza+Navona,Rome/Trevi+Fountain,Rome/@41.8945,12.4845,15z/data=!3m1!4b1!4m2!4m1!3e2",
+                    attractions: [
+                        { name: "斗兽场", time: "08:00-11:30", duration: "游览3.5小时 | 已预订", link: "https://maps.google.com/?q=41.8902102,12.4922309" },
+                        { name: "古罗马广场", time: "11:30-12:30", duration: "游览1小时", link: "https://maps.google.com/?q=41.8920,12.4850" },
+                        { name: "威尼斯广场", time: "12:30-14:30", duration: "午餐+拍照2小时", link: "https://maps.google.com/?q=41.8964,12.4828" },
+                        { name: "万神殿", time: "14:30-16:00", duration: "游览1.5小时 | 已预订", link: "https://maps.google.com/?q=41.8986108,12.4768729" },
+                        { name: "纳沃纳广场", time: "16:00-17:00", duration: "游览1小时", link: "https://maps.google.com/?q=41.8992,12.4731" },
+                        { name: "特雷维喷泉", time: "17:00-20:00", duration: "游览+晚餐3小时", link: "https://maps.google.com/?q=41.9009,12.4833" }
+                    ],
+                    transport: [
+                        { time: "07:00", icon: "🚇", route: "地铁去火车站" },
+                        { time: "08:00", icon: "🧳", route: "行李寄存火车站" },
+                        { time: "20:10", icon: "🚂", route: "Roma Termini 取行李 - 已预订" },
+                        { time: "21:46", icon: "🚂", route: "Firenze S.M. Novella" },
+                        { time: "22:10", icon: "🏨", route: "到达 II Borgo del Duomo 酒店 - 已预订" }
+                    ],
+                    hotel: "II Borgo del Duomo",
+                    hotelLink: "https://maps.google.com/?q=43.7731,11.2560"
+                },
+                {
+                    id: 4,
+                    title: "🎨 第4天 - 佛罗伦萨艺术日",
+                    date: "10月5日 | 佛罗伦萨",
+                    type: "attractions",
+                    stats: [
+                        { value: "35分钟", label: "总步行时间" },
+                        { value: "6个", label: "主要景点" },
+                        { value: "13小时", label: "游览时间" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/Galleria+dell%27Accademia,Florence/Mercato+Centrale,Florence/43.773145,11.2559602/Piazza+della+Signoria,Florence/Ponte+Vecchio,Florence/Piazzale+Michelangelo,Florence/@43.773,11.256,14z/data=!3m1!4b1!4m2!4m1!3e2",
+                    attractions: [
+                        { name: "学院美术馆", time: "07:00-10:00", duration: "游览3小时 | Tips: 博物馆免费日，务必7点前到达排队", link: "https://maps.google.com/?q=43.7769,11.2589" },
+                        { name: "圣洛伦佐市场", time: "10:00-12:00", duration: "市场+午餐2小时 | Tips: 感受佛罗伦萨市井气息", link: "https://maps.google.com/?q=43.7775,11.2545" },
+                        { name: "圣母百花大教堂", time: "12:00-14:00", duration: "外观游览2小时", link: "https://maps.google.com/?q=43.773145,11.2559602" },
+                        { name: "领主广场", time: "14:00-15:00", duration: "广场游览1小时", link: "https://maps.google.com/?q=43.7696,11.2558" },
+                        { name: "老桥", time: "15:00-16:00", duration: "桥上漫步1小时", link: "https://maps.google.com/?q=43.7679,11.2530" },
+                        { name: "米开朗基罗广场", time: "17:00-20:00", duration: "日落观赏3小时 | Tips: 准备好相机，占据有利位置", link: "https://maps.google.com/?q=43.7629,11.2651" }
+                    ],
+                    hotel: "II Borgo del Duomo",
+                    hotelLink: "https://maps.google.com/?q=43.7731,11.2560"
+                },
+                {
+                    id: 5,
+                    title: "🗼 第5天 - 比萨托斯卡纳一日游",
+                    date: "10月6日 | 佛罗伦萨 → 比萨",
+                    type: "tour",
+                    stats: [
+                        { value: "全天", label: "游览时间" },
+                        { value: "1个", label: "主要景点" },
+                        { value: "已预订", label: "团队游" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/43.773145,11.2559602/43.722952,10.396597/@43.748,11.139,10z/data=!3m1!4b1!4m2!4m1!3e0",
+                    attractions: [
+                        { name: "比萨斜塔", time: "全天", duration: "托斯卡纳乡村游览 | 含餐、红酒", link: "https://maps.google.com/?q=43.722952,10.396597" }
+                    ],
+                    transport: [
+                        { time: "07:00", icon: "🌅", route: "早起出发 - Tips: 带🍞等早餐" },
+                        { time: "08:00", icon: "🚌", route: "Ciaoflorence 报刊亭集合点出发 - 已预订(飞猪)" },
+                        { time: "19:00", icon: "🍽️", route: "返回佛罗伦萨晚餐" }
+                    ],
+                    hotel: "II Borgo del Duomo",
+                    hotelLink: "https://maps.google.com/?q=43.7731,11.2560"
+                },
+                {
+                    id: 6,
+                    title: "⛪ 第6天 - 佛罗伦萨市区 → 威尼斯",
+                    date: "10月7日 | 佛罗伦萨 → 威尼斯",
+                    type: "attractions",
+                    stats: [
+                        { value: "4个", label: "主要景点" },
+                        { value: "10小时", label: "游览时间" },
+                        { value: "已预订", label: "火车票" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/Mercato+Centrale,Florence/43.773145,11.2559602/Piazza+della+Repubblica,Florence/Basilica+di+Santa+Croce,Florence/@43.773,11.256,14z/data=!3m1!4b1!4m2!4m1!3e2",
+                    attractions: [
+                        { name: "中央市场", time: "09:00-10:00", duration: "早餐", link: "https://maps.google.com/?q=43.7775,11.2545" },
+                        { name: "圣母百花大教堂", time: "10:00-12:00", duration: "根据前一天情况决定是否深入", link: "https://maps.google.com/?q=43.773145,11.2559602" },
+                        { name: "共和广场", time: "12:00-13:59", duration: "午餐", link: "https://maps.google.com/?q=43.7714,11.2541" },
+                        { name: "圣十字圣殿", time: "15:00-18:00", duration: "游览3小时", link: "https://maps.google.com/?q=43.7684,11.2624" }
+                    ],
+                    transport: [
+                        { time: "08:00", icon: "🧳", route: "行李寄存酒店" },
+                        { time: "18:00", icon: "🧳", route: "返回酒店取行李" },
+                        { time: "19:39", icon: "🚂", route: "Firenze S.M. Novella - 已预订" },
+                        { time: "21:42", icon: "🚂", route: "Venezia Mestre 威尼斯梅斯特雷火车站" },
+                        { time: "22:00", icon: "🏨", route: "入住 Arham Guesthouse Bembo 11 - 已预订" },
+                        { time: "Tips", icon: "⚠️", route: "确认是否有罢工" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "🚤 第7天 - 威尼斯水城",
+                    date: "10月8日 | 威尼斯",
+                    type: "attractions",
+                    stats: [
+                        { value: "30分钟", label: "总步行时间" },
+                        { value: "5个", label: "主要景点" },
+                        { value: "9小时", label: "游览时间" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/45.4341668,12.3384717/St+Mark%27s+Basilica,Venice/Palazzo+Ducale,Venice/Rialto+Bridge,Venice/@45.434,12.339,15z/data=!3m1!4b1!4m2!4m1!3e2",
+                    attractions: [
+                        { name: "圣马可广场", time: "09:00-11:00", duration: "游览2小时", link: "https://maps.google.com/?q=45.4341668,12.3384717" },
+                        { name: "圣马可大教堂", time: "11:00-11:30", duration: "外观参观30分钟", link: "https://maps.google.com/?q=45.4348,12.3398" },
+                        { name: "总督府", time: "11:30-12:00", duration: "外观参观30分钟", link: "https://maps.google.com/?q=45.4342,12.3406" },
+                        { name: "贡多拉游船", time: "12:00-12:30", duration: "游船30分钟 | 已预订", link: "https://maps.google.com/?q=45.4342,12.3385" },
+                        { name: "里亚托桥", time: "14:00-18:00", duration: "游览+集市4小时", link: "https://maps.google.com/?q=45.4378,12.3358" }
+                    ],
+                    transport: [
+                        { time: "07:00", icon: "🧳", route: "行李寄存酒店" },
+                        { time: "08:00", icon: "🍽️", route: "早餐" },
+                        { time: "18:00", icon: "🧳", route: "前往 Venezia Mestre - 返回酒店取行李" },
+                        { time: "19:00", icon: "🚂", route: "火车前往米兰 - 已预订" },
+                        { time: "21:15", icon: "🚂", route: "Milano Centrale 到达" },
+                        { time: "22:00", icon: "🏨", route: "入住酒店 - 已预订" }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "🏰 第8天 - 米兰 → 瑞士因特拉肯",
+                    date: "10月9日 | 米兰 → 因特拉肯",
+                    type: "attractions",
+                    stats: [
+                        { value: "3小时", label: "登顶游览" },
+                        { value: "1个", label: "主要景点" },
+                        { value: "已预订", label: "火车票" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/45.4640976,9.1919265/Spiez/46.6863481,7.8632049/@46.025,8.5,8z/data=!3m1!4b1!4m2!4m1!3e0",
+                    attractions: [
+                        { name: "米兰大教堂", time: "09:00-12:00", duration: "登顶游览3小时 | 强烈建议在线提前预订", link: "https://maps.google.com/?q=45.4640976,9.1919265" }
+                    ],
+                    transport: [
+                        { time: "08:00", icon: "🧳", route: "行李寄存火车站、教堂旁早餐" },
+                        { time: "12:00", icon: "🍽️", route: "午餐" },
+                        { time: "13:59", icon: "🛍️", route: "纪念品购物、取行李" },
+                        { time: "15:00", icon: "🚂", route: "火车米兰到 Spiez - 已预订 (坐右侧)" },
+                        { time: "18:00", icon: "📸", route: "Spiez 拍照游览" },
+                        { time: "19:59", icon: "🚂", route: "火车Spiez → 因特拉肯 (坐左侧)" },
+                        { time: "21:00", icon: "🏨", route: "因特拉肯入住 SAVOY 26 - 已预订" },
+                        { time: "22:00", icon: "🎫", route: "激活瑞士半价卡" }
+                    ],
+                    hotel: "SAVOY 26",
+                    hotelLink: "https://maps.google.com/?q=46.6863,7.8632"
+                },
+                {
+                    id: 9,
+                    title: "🏔️ 第9天 - 格林德瓦First山",
+                    date: "10月10日 | 因特拉肯 → 格林德瓦",
+                    type: "attractions",
+                    stats: [
+                        { value: "1小时", label: "总交通时间" },
+                        { value: "4个", label: "主要景点" },
+                        { value: "14小时", label: "游览时间" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/46.6863481,7.8632049/46.624164,8.0413962/First+Grindelwald/@46.655,7.952,12z/data=!3m1!4b1!4m2!4m1!3e0",
+                    attractions: [
+                        { name: "因特拉肯 → 格林德瓦", time: "07:00-08:00", duration: "火车30分钟 | Tips: 将大件行李寄存在因特拉肯的酒店", link: "https://maps.google.com/?q=46.6863481,7.8632049" },
+                        { name: "First山游玩项目", time: "09:00-14:00", duration: "飞鹰+卡丁车+滑板车 | 已预订", link: "https://maps.google.com/?q=46.6667,8.0833" },
+                        { name: "格林德瓦小镇漫步", time: "15:00-17:00", duration: "小镇游览2小时 | 或体验大滑梯", link: "https://maps.google.com/?q=46.6245,8.0417" },
+                        { name: "梦幻山坡拍摄", time: "16:59-19:00", duration: "Hotel Cabana 梦幻山坡拍摄2小时", link: "https://maps.google.com/?q=46.6248,8.0420" },
+                        { name: "瑞士奶酪火锅晚餐", time: "19:00-21:00", duration: "Restaurant Belvedere", link: "https://maps.google.com/?q=46.6242,8.0414" }
+                    ],
+                    transport: [
+                        { time: "21:00", icon: "🚂", route: "火车回因特拉肯 (20:17) - 已预订" }
+                    ],
+                    hotel: "因特拉肯入住 SAVOY 26",
+                    hotelLink: "https://maps.google.com/?q=46.6863,7.8632"
+                },
+                {
+                    id: 10,
+                    title: "🚠 第10天 - 因特拉肯周边",
+                    date: "10月11日 | 因特拉肯周边",
+                    type: "attractions",
+                    stats: [
+                        { value: "1.5小时", label: "总交通时间" },
+                        { value: "4个", label: "主要景点" },
+                        { value: "已预订", label: "火车+游船" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/46.6863481,7.8632049/Brienz+Station/Brienz+Rothorn+Bahn/Harder+Kulm,Interlaken/Lake+Brienz/@46.686,7.863,11z/data=!3m1!4b1!4m2!4m1!3e0",
+                    attractions: [
+                        { name: "布里恩茨", time: "08:00-09:00", duration: "火车30分钟 | Tips: 行李存在火车站，轻装出游", link: "https://maps.google.com/?q=46.7519,8.0375" },
+                        { name: "布里恩茨蒸汽火车", time: "09:40-14:28", duration: "蒸汽火车游览4小时48分钟 | 已预订", link: "https://maps.google.com/?q=46.7519,8.0375" },
+                        { name: "布里恩茨湖游船", time: "14:40-16:00", duration: "游船1小时20分钟 | 已预订", link: "https://maps.google.com/?q=46.7519,8.0375" },
+                        { name: "哈德库观景台", time: "16:00-19:00", duration: "缆车上山10分钟，观景台3小时 | Tips: 现场买票、买巧克力", link: "https://maps.google.com/?q=46.6863,7.8632" }
+                    ],
+                    transport: [
+                        { time: "08:00", icon: "🚂", route: "火车到布里恩茨 - 已预订" },
+                        { time: "19:00", icon: "🍽️", route: "返回因特拉肯晚餐" }
+                    ],
+                    hotel: "因特拉肯入住 SAVOY 26",
+                    hotelLink: "https://maps.google.com/?q=46.6863,7.8632"
+                },
+                {
+                    id: 11,
+                    title: "🏔️ 第11天 - 少女峰 → 蒙特勒",
+                    date: "10月12日 | 因特拉肯 → 蒙特勒 (行程重大调整)",
+                    type: "attractions",
+                    stats: [
+                        { value: "7小时", label: "少女峰游览" },
+                        { value: "2组", label: "团队分组" },
+                        { value: "已预订", label: "火车票" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/46.548308,7.983151/46.4312213,6.9106799/@46.49,7.447,10z/data=!3m1!4b1!4m2!4m1!3e0",
+                    attractions: [
+                        { name: "少女峰", time: "07:00-14:00", duration: "游览7小时 | 已预订", link: "https://maps.google.com/?q=46.548308,7.983151" },
+                        { name: "蒙特勒", time: "18:00-21:00", duration: "黄金列车坐右侧 | 日内瓦湖畔休息晚餐", link: "https://maps.google.com/?q=46.4312213,6.9106799" }
+                    ],
+                    transport: [
+                        { time: "14:00", icon: "🍽️", route: "返回因特拉肯午餐，在酒店取回所有行李" },
+                        { time: "15:00", icon: "👥", route: "团队在因特拉肯东站分为两组" },
+                        { time: "回国3人组", icon: "✈️", route: "Interlaken Ost → 日内瓦机场 (GVA) - 已预订" },
+                        { time: "继续行程2人组", icon: "🚂", route: "黄金列车 Interlaken Ost → 蒙特勒 - 已预订" },
+                        { time: "18:00", icon: "🏨", route: "(2人组) 抵达蒙特勒，入住酒店，日内瓦湖畔休息晚餐" },
+                        { time: "21:20", icon: "✈️", route: "(3人组) 飞机 - 日内瓦起飞 - 已预订" }
+                    ],
+                    hotel: "Ambassador Self Check-in Hotel (2人组入住) - 已预订",
+                    hotelLink: "https://maps.google.com/?q=46.4500,6.5000"
+                },
+                {
+                    id: 12,
+                    title: "🏰 第12天 - 蒙特勒西庸城堡",
+                    date: "10月13日 | 蒙特勒 (行程重大调整)",
+                    type: "attractions",
+                    stats: [
+                        { value: "2组", label: "团队分组" },
+                        { value: "3个", label: "主要景点" },
+                        { value: "已预订", label: "航班" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/46.4312213,6.9106799/46.4142131,6.9274924/Lake+Geneva/@46.423,6.919,13z/data=!3m1!4b1!4m2!4m1!3e0",
+                    attractions: [
+                        { name: "西庸城堡", time: "09:00-12:30", duration: "游览3.5小时 | 201路巴士 | Tips: 上午光线好，游客相对较少", link: "https://maps.google.com/?q=46.4142131,6.9274924" },
+                        { name: "蒙特勒午餐", time: "12:30-14:30", duration: "瑞士牛排午餐2小时", link: "https://maps.google.com/?q=46.4315,6.9110" },
+                        { name: "日内瓦湖畔漫步", time: "14:30-17:00", duration: "湖畔漫步2.5小时 | 购买纪念品", link: "https://maps.google.com/?q=46.4500,6.5000" }
+                    ],
+                    transport: [
+                        { time: "05:45", icon: "✈️", route: "(3人组) 到达迪拜机场" },
+                        { time: "10:40", icon: "✈️", route: "(3人组) 迪拜起飞 - 已预订" },
+                        { time: "07:00", icon: "🏨", route: "(2人组) 酒店退房、行李寄存火车站、早餐" },
+                        { time: "08:30", icon: "🚌", route: "(2人组) 乘坐201路巴士前往西庸城堡" },
+                        { time: "17:00", icon: "🧳", route: "(2人组) 返回蒙特勒火车站取行李" },
+                        { time: "17:30", icon: "🚂", route: "(2人组) 火车前往日内瓦机场 (GVA) (车程约1小时)" },
+                        { time: "19:00", icon: "✈️", route: "(2人组) 到达机场，办理登机手续 - 已预订" },
+                        { time: "22:20", icon: "✈️", route: "(剩余2人) 飞机 - 日内瓦起飞 - 已预订" }
+                    ]
+                },
+                {
+                    id: 13,
+                    title: "🛩️ 第13天 - 抵达国内",
+                    date: "10月14日 | 抵达北京",
+                    type: "flight",
+                    stats: [
+                        { value: "10:00-11:00", label: "抵达时间" },
+                        { value: "13:35", label: "最后航班" },
+                        { value: "完成", label: "13天行程" }
+                    ],
+                    mapUrl: "https://www.google.com/maps/dir/Geneva,Switzerland/Beijing,China/@45.0,60.0,4z/data=!3m1!4b1!4m2!4m1!3e0",
+                    attractions: [
+                        { name: "日内瓦机场", time: "22:20", duration: "起飞", link: "https://maps.google.com/?q=46.2381,6.1090" },
+                        { name: "北京首都国际机场", time: "10:00-11:00", duration: "抵达", link: "https://maps.google.com/?q=40.0799,116.6031" }
+                    ],
+                    transport: [
+                        { time: "10:00-11:00", icon: "✈️", route: "13:35 航班陆续抵达北京" }
+                    ]
+                }
+            ]
+        };
+
+        // Function to create day card HTML
+        function createDayCard(day) {
+            const statsHtml = day.stats ? day.stats.map(stat => 
+                `<div class="bg-surface p-4 rounded-lg text-center shadow-sm">
+                    <div class="text-2xl font-bold text-primary">${stat.value}</div>
+                    <div class="text-sm text-secondary-text mt-1">${stat.label}</div>
+                </div>`
+            ).join('') : '';
+
+            const attractionsHtml = day.attractions ? day.attractions.map(attraction => {
+                const isBooked = attraction.duration.includes('已预订');
+                const bookingId = `booking-${day.id}-${attraction.name.replace(/\s+/g, '-')}`;
+                
+                return `<div class="bg-surface p-4 rounded-lg border-l-4 border-primary shadow-sm ${isBooked ? 'booking-item' : ''}" ${isBooked ? `id="${bookingId}"` : ''}>
+                    <div class="font-bold text-primary-text mb-1">
+                        ${attraction.link ? `<a href="${attraction.link}" target="_blank" class="text-primary hover:text-primary-text hover:underline">${attraction.name}</a>` : attraction.name}
+                    </div>
+                    <div class="text-primary text-sm mb-1">${attraction.time}</div>
+                    <div class="text-secondary-text text-sm">${attraction.duration}</div>
+                    ${isBooked ? `
+                        <button class="booking-expand-btn" onclick="toggleBooking('${bookingId}')">
+                            📋 查看预订详情
+                        </button>
+                        <div class="booking-details" id="${bookingId}-details">
+                            <div class="booking-details-content">
+                                <div class="booking-info">
+                                    <h4>🎫 预订信息</h4>
+                                    <p><strong>景点名称:</strong> ${attraction.name}</p>
+                                    <p><strong>预订时间:</strong> ${attraction.time}</p>
+                                    <p><strong>预订状态:</strong> 已确认</p>
+                                    <p><strong>预订平台:</strong> 官方渠道</p>
+                                </div>
+                                <div class="booking-info">
+                                    <h4>📱 票务截图</h4>
+                                    <img src="示例图片.jpg" alt="预订截图" class="booking-screenshot">
+                                    <p style="text-align: center; color: #666; font-size: 12px; margin-top: 5px;">
+                                        * 实际票务截图将在后续更新
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>`;
+            }).join('') : '';
+
+            const transportHtml = day.transport ? day.transport.map(transport => {
+                const isBooked = transport.route.includes('已预订');
+                const transportId = `transport-${day.id}-${transport.time.replace(/[:\s]/g, '-')}`;
+                
+                return `<div class="flex items-center p-3 bg-surface rounded-lg mb-2 ${isBooked ? 'booking-item' : ''}" ${isBooked ? `id="${transportId}"` : ''}>
+                    <div class="text-2xl mr-4">${transport.icon}</div>
+                    <div class="flex-1">
+                        <div class="font-bold text-primary-text">${transport.time}</div>
+                        <div class="text-secondary-text text-sm">${transport.route}</div>
+                    </div>
+                    ${isBooked ? `
+                        <button class="booking-expand-btn" onclick="toggleBooking('${transportId}')">
+                            📋 查看预订
+                        </button>
+                        <div class="booking-details" id="${transportId}-details">
+                            <div class="booking-details-content">
+                                <div class="booking-info">
+                                    <h4>🎫 交通预订信息</h4>
+                                    <p><strong>出发时间:</strong> ${transport.time}</p>
+                                    <p><strong>路线:</strong> ${transport.route}</p>
+                                    <p><strong>预订状态:</strong> 已确认</p>
+                                    <p><strong>预订平台:</strong> 官方渠道</p>
+                                </div>
+                                <div class="booking-info">
+                                    <h4>📱 票务截图</h4>
+                                    <img src="示例图片.jpg" alt="交通预订截图" class="booking-screenshot">
+                                    <p style="text-align: center; color: #666; font-size: 12px; margin-top: 5px;">
+                                        * 实际票务截图将在后续更新
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>`;
+            }).join('') : '';
+
+            const mapHtml = day.mapUrl ? 
+                `<div class="map-container mb-6">
+                    <div id="map-${day.id}" class="leaflet-map"></div>
+                </div>` : '';
+
+            const hotelHtml = day.hotel ? 
+                `<div class="bg-background border-l-4 border-accent p-5 rounded-lg mt-6">
+                    <h3 class="text-primary-text font-bold mb-2 text-lg">🏨 住宿信息</h3>
+                    <div class="font-bold text-primary-text">
+                        ${day.hotelLink ? `<a href="${day.hotelLink}" target="_blank" class="text-primary hover:text-primary-text hover:underline">${day.hotel}</a>` : day.hotel}
+                    </div>
+                </div>` : '';
+
+            return `
+                <div class="bg-surface rounded-2xl shadow-xl card-hover overflow-hidden" style="background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+                    <div class="bg-gradient-to-r from-primary to-primary text-white p-6 text-center">
+                        <h2 class="text-2xl font-bold mb-2">${day.title}</h2>
+                        <div class="text-lg opacity-90">${day.date}</div>
+                    </div>
+                    <div class="p-8">
+                        ${day.stats ? `
+                            <div class="bg-background rounded-xl p-6 mb-6">
+                                <h3 class="text-primary-text font-bold mb-4 text-xl">📊 路线统计</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    ${statsHtml}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${mapHtml}
+                        
+                        ${day.attractions ? `
+                            <div class="mb-6">
+                                <h3 class="text-primary-text font-bold mb-4 text-xl">📍 主要景点</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    ${attractionsHtml}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${day.transport ? `
+                            <div class="bg-background rounded-xl p-6">
+                                <h3 class="text-primary-text font-bold mb-4 text-xl">🚂 交通信息</h3>
+                                ${transportHtml}
+                            </div>
+                        ` : ''}
+                        
+                        ${hotelHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to render all days
+        function renderDays() {
+            const container = document.getElementById('travel-days');
+            container.innerHTML = travelData.days.map(day => createDayCardWithMap(day)).join('');
+        }
+
+        // 预订展开功能
+        function toggleBooking(bookingId) {
+            const detailsElement = document.getElementById(bookingId + '-details');
+            const buttonElement = document.querySelector(`#${bookingId} .booking-expand-btn`);
+            
+            if (detailsElement && buttonElement) {
+                const isExpanded = detailsElement.classList.contains('expanded');
+                
+                if (isExpanded) {
+                    // 收起
+                    detailsElement.classList.remove('expanded');
+                    buttonElement.textContent = '📋 查看预订详情';
+                    buttonElement.classList.remove('expanded');
+                } else {
+                    // 展开
+                    detailsElement.classList.add('expanded');
+                    buttonElement.textContent = '📋 收起详情';
+                    buttonElement.classList.add('expanded');
+                }
+            }
+        }
+
+        // 移动端触摸优化
+        function addTouchSupport() {
+            const bookingItems = document.querySelectorAll('.booking-item');
+            bookingItems.forEach(item => {
+                item.addEventListener('touchstart', function(e) {
+                    this.style.transform = 'scale(0.98)';
+                });
+                
+                item.addEventListener('touchend', function(e) {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        }
+
+        // 搜索功能
+        function addSearchFunction() {
+            const searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.placeholder = '🔍 搜索景点、城市或关键词...';
+            searchInput.className = 'w-full p-4 mb-6 rounded-xl border-2 border-primary focus:border-accent focus:outline-none text-lg';
+            searchInput.style.background = 'rgba(255, 255, 255, 0.9)';
+            
+            const header = document.querySelector('.text-center.text-white.mb-12');
+            header.appendChild(searchInput);
+            
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const dayCards = document.querySelectorAll('.bg-surface.rounded-2xl');
+                
+                dayCards.forEach(card => {
+                    const cardText = card.textContent.toLowerCase();
+                    if (cardText.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = searchTerm ? 'none' : 'block';
+                    }
+                });
+            });
+        }
+
+        // 收藏功能
+        function addFavoriteFunction() {
+            const favoriteButton = document.createElement('button');
+            favoriteButton.innerHTML = '❤️ 收藏行程';
+            favoriteButton.className = 'bg-surface text-primary px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 mb-4';
+            favoriteButton.onclick = function() {
+                if (navigator.share) {
+                    navigator.share({
+                        title: '🇮🇹🇨🇭 意大利瑞士13天旅行路书',
+                        text: '查看我的详细旅行计划，包含所有景点、路线和预订信息！',
+                        url: window.location.href
+                    });
+                } else {
+                    // 复制链接到剪贴板
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        alert('链接已复制到剪贴板！');
+                    });
+                }
+            };
+            
+            const header = document.querySelector('.text-center.text-white.mb-12');
+            header.appendChild(favoriteButton);
+        }
+
+        // 添加返回顶部按钮
+        function addBackToTopButton() {
+            const backToTopBtn = document.createElement('button');
+            backToTopBtn.innerHTML = '⬆️';
+            backToTopBtn.className = 'fixed bottom-6 right-6 bg-primary text-white w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-50';
+            backToTopBtn.style.display = 'none';
+            backToTopBtn.onclick = function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+            
+            document.body.appendChild(backToTopBtn);
+            
+            // 监听滚动事件
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.style.display = 'block';
+                } else {
+                    backToTopBtn.style.display = 'none';
+                }
+            });
+        }
+
+        // 添加键盘快捷键支持
+        function addKeyboardShortcuts() {
+            document.addEventListener('keydown', function(e) {
+                // Ctrl/Cmd + F 聚焦搜索框
+                if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                    e.preventDefault();
+                    const searchInput = document.querySelector('input[type="text"]');
+                    if (searchInput) {
+                        searchInput.focus();
+                    }
+                }
+                
+                // ESC 键清除搜索
+                if (e.key === 'Escape') {
+                    const searchInput = document.querySelector('input[type="text"]');
+                    if (searchInput) {
+                        searchInput.value = '';
+                        searchInput.dispatchEvent(new Event('input'));
+                    }
+                }
+            });
+        }
+
+        // Leaflet地图管理
+        const mapInstances = {};
+        
+        // 创建自定义标记图标
+        function createCustomIcon(type, number) {
+            const iconClass = type === 'start' ? 'custom-marker start' : 
+                             type === 'end' ? 'custom-marker end' : 'custom-marker';
+            
+            return L.divIcon({
+                className: iconClass,
+                html: number || '📍',
+                iconSize: [30, 30],
+                iconAnchor: [15, 15],
+                popupAnchor: [0, -15]
+            });
+        }
+        
+        // 初始化地图
+        function initMap(dayId, attractions) {
+            if (!attractions || attractions.length === 0) return;
+            
+            // 计算地图中心点
+            const lats = attractions.map(attr => attr.coords[0]);
+            const lngs = attractions.map(attr => attr.coords[1]);
+            const centerLat = (Math.min(...lats) + Math.max(...lats)) / 2;
+            const centerLng = (Math.min(...lngs) + Math.max(...lngs)) / 2;
+            
+            // 创建地图实例
+            const map = L.map(`map-${dayId}`, {
+                zoomControl: true,
+                scrollWheelZoom: true,
+                doubleClickZoom: true,
+                touchZoom: true
+            }).setView([centerLat, centerLng], 13);
+            
+            // 添加地图瓦片
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 18
+            }).addTo(map);
+            
+            // 添加景点标记
+            const markers = [];
+            attractions.forEach((attraction, index) => {
+                const iconType = index === 0 ? 'start' : index === attractions.length - 1 ? 'end' : 'normal';
+                const marker = L.marker([attraction.coords[0], attraction.coords[1]], {
+                    icon: createCustomIcon(iconType, index + 1)
+                }).addTo(map);
+                
+                // 添加弹窗
+                const popupContent = `
+                    <div class="popup-title">${attraction.name}</div>
+                    <div class="popup-time">${attraction.time}</div>
+                    <div class="popup-duration">${attraction.duration}</div>
+                `;
+                marker.bindPopup(popupContent);
+                markers.push(marker);
+            });
+            
+            // 绘制路线
+            if (markers.length > 1) {
+                const routeCoords = attractions.map(attr => [attr.coords[0], attr.coords[1]]);
+                const route = L.polyline(routeCoords, {
+                    color: '#2AD1E7',
+                    weight: 4,
+                    opacity: 0.8,
+                    dashArray: '10, 5'
+                }).addTo(map);
+                
+                // 调整地图视野以包含所有标记
+                const group = new L.featureGroup(markers);
+                map.fitBounds(group.getBounds().pad(0.1));
+            }
+            
+            mapInstances[dayId] = map;
+        }
+        
+        // 解析景点坐标
+        function parseAttractionCoords(attraction) {
+            const link = attraction.link;
+            if (!link) return null;
+            
+            // 尝试从坐标格式的链接中提取坐标
+            const coordMatch = link.match(/q=([0-9.-]+),([0-9.-]+)/);
+            if (coordMatch) {
+                return [parseFloat(coordMatch[1]), parseFloat(coordMatch[2])];
+            }
+            
+            // 如果没有坐标，尝试从景点名称获取已知坐标
+            const knownCoords = {
+                // 梵蒂冈区域
+                '圣天使城堡': [41.9031, 12.4663],
+                'Castel Sant\'Angelo': [41.9031, 12.4663],
+                'Castel Sant\'Angelo,Rome': [41.9031, 12.4663],
+                '圣彼得广场': [41.9020, 12.4542],
+                'Piazza San Pietro': [41.9020, 12.4542],
+                '圣彼得大教堂': [41.9022, 12.4539],
+                'St. Peter\'s Basilica': [41.9022, 12.4539],
+                '梵蒂冈博物馆': [41.9065, 12.4536],
+                'Vatican Museums': [41.9065, 12.4536],
+                
+                // 罗马古迹
+                '斗兽场': [41.8902, 12.4922],
+                'Colosseum': [41.8902, 12.4922],
+                '古罗马广场': [41.8920, 12.4850],
+                'Roman Forum': [41.8920, 12.4850],
+                '威尼斯广场': [41.8964, 12.4828],
+                'Piazza Venezia': [41.8964, 12.4828],
+                '万神殿': [41.8986, 12.4769],
+                'Pantheon': [41.8986, 12.4769],
+                '纳沃纳广场': [41.8992, 12.4731],
+                'Piazza Navona': [41.8992, 12.4731],
+                '特雷维喷泉': [41.9009, 12.4833],
+                'Trevi Fountain': [41.9009, 12.4833],
+                
+                // 佛罗伦萨
+                '学院美术馆': [43.7769, 11.2589],
+                'Galleria dell\'Accademia': [43.7769, 11.2589],
+                '圣洛伦佐市场': [43.7775, 11.2545],
+                'Mercato Centrale': [43.7775, 11.2545],
+                '圣母百花大教堂': [43.7731, 11.2560],
+                'Florence Cathedral': [43.7731, 11.2560],
+                '领主广场': [43.7696, 11.2558],
+                'Piazza della Signoria': [43.7696, 11.2558],
+                '老桥': [43.7679, 11.2530],
+                'Ponte Vecchio': [43.7679, 11.2530],
+                '米开朗基罗广场': [43.7629, 11.2651],
+                'Piazzale Michelangelo': [43.7629, 11.2651],
+                '比萨斜塔': [43.7230, 10.3966],
+                'Leaning Tower of Pisa': [43.7230, 10.3966],
+                '圣十字圣殿': [43.7684, 11.2624],
+                'Basilica di Santa Croce': [43.7684, 11.2624],
+                '共和广场': [43.7714, 11.2541],
+                'Piazza della Repubblica': [43.7714, 11.2541],
+                'Piazza della Repubblica,Florence': [43.7714, 11.2541],
+                
+                // 威尼斯
+                '圣马可广场': [45.4342, 12.3385],
+                'Piazza San Marco': [45.4342, 12.3385],
+                '圣马可大教堂': [45.4348, 12.3398],
+                'St. Mark\'s Basilica': [45.4348, 12.3398],
+                '总督府': [45.4342, 12.3406],
+                'Palazzo Ducale': [45.4342, 12.3406],
+                '里亚托桥': [45.4378, 12.3358],
+                'Rialto Bridge': [45.4378, 12.3358],
+                'Rialto Bridge,Venice': [45.4378, 12.3358],
+                
+                // 米兰
+                '米兰大教堂': [45.4641, 9.1919],
+                'Milan Cathedral': [45.4641, 9.1919],
+                
+                // 瑞士
+                '因特拉肯': [46.6863, 7.8632],
+                'Interlaken': [46.6863, 7.8632],
+                '格林德瓦': [46.6245, 8.0417],
+                'Grindelwald': [46.6245, 8.0417],
+                'First山': [46.6667, 8.0833],
+                'First Grindelwald': [46.6667, 8.0833],
+                '布里恩茨': [46.7519, 8.0375],
+                'Brienz': [46.7519, 8.0375],
+                'Brienz Station': [46.7519, 8.0375],
+                '布里恩茨蒸汽火车': [46.7519, 8.0375],
+                'Brienz Rothorn Bahn': [46.7519, 8.0375],
+                '布里恩茨湖游船': [46.7519, 8.0375],
+                'Lake Brienz': [46.7519, 8.0375],
+                '哈德库观景台': [46.6863, 7.8632],
+                'Harder Kulm': [46.6863, 7.8632],
+                'Harder Kulm,Interlaken': [46.6863, 7.8632],
+                '少女峰': [46.5483, 7.9832],
+                'Jungfraujoch': [46.5483, 7.9832],
+                '蒙特勒': [46.4312, 6.9107],
+                'Montreux': [46.4312, 6.9107],
+                '蒙特勒午餐': [46.4315, 6.9110],
+                '西庸城堡': [46.4142, 6.9275],
+                'Château de Chillon': [46.4142, 6.9275],
+                '日内瓦湖': [46.4500, 6.5000],
+                'Lake Geneva': [46.4500, 6.5000],
+                'Restaurant Belvedere': [46.6242, 8.0414],
+                'Hotel Cabana': [46.6248, 8.0420],
+                '梦幻山坡拍摄': [46.6248, 8.0420],
+                
+                // 机场
+                '北京首都国际机场': [40.0799, 116.6031],
+                'Beijing Capital International Airport': [40.0799, 116.6031],
+                '迪拜国际机场': [25.2532, 55.3657],
+                'Dubai International Airport': [25.2532, 55.3657],
+                '日内瓦机场': [46.2381, 6.1090],
+                'Geneva Airport': [46.2381, 6.1090]
+            };
+            
+            // 检查是否有已知坐标
+            for (const [key, coords] of Object.entries(knownCoords)) {
+                if (attraction.name.includes(key) || link.includes(key)) {
+                    return coords;
+                }
+            }
+            
+            return null;
+        }
+        
+        // 更新createDayCard函数以支持地图
+        function createDayCardWithMap(day) {
+            const statsHtml = day.stats ? day.stats.map(stat => 
+                `<div class="bg-surface p-4 rounded-lg text-center shadow-sm">
+                    <div class="text-2xl font-bold text-primary">${stat.value}</div>
+                    <div class="text-sm text-secondary-text mt-1">${stat.label}</div>
+                </div>`
+            ).join('') : '';
+
+            const attractionsHtml = day.attractions ? day.attractions.map(attraction => {
+                const isBooked = attraction.duration.includes('已预订');
+                const bookingId = `booking-${day.id}-${attraction.name.replace(/\s+/g, '-')}`;
+                
+                return `<div class="bg-surface p-4 rounded-lg border-l-4 border-primary shadow-sm ${isBooked ? 'booking-item' : ''}" ${isBooked ? `id="${bookingId}"` : ''}>
+                    <div class="font-bold text-primary-text mb-1">
+                        ${attraction.link ? `<a href="${attraction.link}" target="_blank" class="text-primary hover:text-primary-text hover:underline">${attraction.name}</a>` : attraction.name}
+                    </div>
+                    <div class="text-primary text-sm mb-1">${attraction.time}</div>
+                    <div class="text-secondary-text text-sm">${attraction.duration}</div>
+                    ${isBooked ? `
+                        <button class="booking-expand-btn" onclick="toggleBooking('${bookingId}')">
+                            📋 查看预订详情
+                        </button>
+                        <div class="booking-details" id="${bookingId}-details">
+                            <div class="booking-details-content">
+                                <div class="booking-info">
+                                    <h4>🎫 预订信息</h4>
+                                    <p><strong>景点名称:</strong> ${attraction.name}</p>
+                                    <p><strong>预订时间:</strong> ${attraction.time}</p>
+                                    <p><strong>预订状态:</strong> 已确认</p>
+                                    <p><strong>预订平台:</strong> 官方渠道</p>
+                                </div>
+                                <div class="booking-info">
+                                    <h4>📱 票务截图</h4>
+                                    <img src="示例图片.jpg" alt="预订截图" class="booking-screenshot">
+                                    <p style="text-align: center; color: #666; font-size: 12px; margin-top: 5px;">
+                                        * 实际票务截图将在后续更新
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>`;
+            }).join('') : '';
+
+            const transportHtml = day.transport ? day.transport.map(transport => {
+                const isBooked = transport.route.includes('已预订');
+                const transportId = `transport-${day.id}-${transport.time.replace(/[:\s]/g, '-')}`;
+                
+                return `<div class="flex items-center p-3 bg-surface rounded-lg mb-2 ${isBooked ? 'booking-item' : ''}" ${isBooked ? `id="${transportId}"` : ''}>
+                    <div class="text-2xl mr-4">${transport.icon}</div>
+                    <div class="flex-1">
+                        <div class="font-bold text-primary-text">${transport.time}</div>
+                        <div class="text-secondary-text text-sm">${transport.route}</div>
+                    </div>
+                    ${isBooked ? `
+                        <button class="booking-expand-btn" onclick="toggleBooking('${transportId}')">
+                            📋 查看预订
+                        </button>
+                        <div class="booking-details" id="${transportId}-details">
+                            <div class="booking-details-content">
+                                <div class="booking-info">
+                                    <h4>🎫 交通预订信息</h4>
+                                    <p><strong>出发时间:</strong> ${transport.time}</p>
+                                    <p><strong>路线:</strong> ${transport.route}</p>
+                                    <p><strong>预订状态:</strong> 已确认</p>
+                                    <p><strong>预订平台:</strong> 官方渠道</p>
+                                </div>
+                                <div class="booking-info">
+                                    <h4>📱 票务截图</h4>
+                                    <img src="示例图片.jpg" alt="交通预订截图" class="booking-screenshot">
+                                    <p style="text-align: center; color: #666; font-size: 12px; margin-top: 5px;">
+                                        * 实际票务截图将在后续更新
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>`;
+            }).join('') : '';
+
+            const mapHtml = day.mapUrl ? 
+                `<div class="map-container mb-6">
+                    <div id="map-${day.id}" class="leaflet-map"></div>
+                </div>` : '';
+
+            const hotelHtml = day.hotel ? 
+                `<div class="bg-background border-l-4 border-accent p-5 rounded-lg mt-6">
+                    <h3 class="text-primary-text font-bold mb-2 text-lg">🏨 住宿信息</h3>
+                    <div class="font-bold text-primary-text">
+                        ${day.hotelLink ? `<a href="${day.hotelLink}" target="_blank" class="text-primary hover:text-primary-text hover:underline">${day.hotel}</a>` : day.hotel}
+                    </div>
+                </div>` : '';
+
+            return `
+                <div class="bg-surface rounded-2xl shadow-xl card-hover overflow-hidden" style="background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+                    <div class="bg-gradient-to-r from-primary to-primary text-white p-6 text-center">
+                        <h2 class="text-2xl font-bold mb-2">${day.title}</h2>
+                        <div class="text-lg opacity-90">${day.date}</div>
+                    </div>
+                    <div class="p-8">
+                        ${day.stats ? `
+                            <div class="bg-background rounded-xl p-6 mb-6">
+                                <h3 class="text-primary-text font-bold mb-4 text-xl">📊 路线统计</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    ${statsHtml}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${mapHtml}
+                        
+                        ${day.attractions ? `
+                            <div class="mb-6">
+                                <h3 class="text-primary-text font-bold mb-4 text-xl">📍 主要景点</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    ${attractionsHtml}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${day.transport ? `
+                            <div class="bg-background rounded-xl p-6">
+                                <h3 class="text-primary-text font-bold mb-4 text-xl">🚂 交通信息</h3>
+                                ${transportHtml}
+                            </div>
+                        ` : ''}
+                        
+                        ${hotelHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderDays();
+            addTouchSupport();
+            addSearchFunction();
+            addFavoriteFunction();
+            addBackToTopButton();
+            addKeyboardShortcuts();
+            
+            // 初始化所有地图
+            setTimeout(() => {
+                travelData.days.forEach(day => {
+                    if (day.attractions && day.attractions.length > 0) {
+                        const attractionsWithCoords = day.attractions
+                            .map(attraction => {
+                                const coords = parseAttractionCoords(attraction);
+                                return coords ? { ...attraction, coords } : null;
+                            })
+                            .filter(attraction => attraction !== null);
+                        
+                        if (attractionsWithCoords.length > 0) {
+                            initMap(day.id, attractionsWithCoords);
+                        }
+                    }
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
