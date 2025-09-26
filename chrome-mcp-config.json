@@ -1,0 +1,35 @@
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["chrome-devtools-mcp@latest"],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  },
+  "chrome": {
+    "headless": false,
+    "devtools": true,
+    "args": [
+      "--disable-web-security",
+      "--disable-features=VizDisplayCompositor",
+      "--remote-debugging-port=9222"
+    ]
+  },
+  "testing": {
+    "baseUrl": "http://localhost:8080",
+    "timeout": 30000,
+    "screenshots": true,
+    "performance": true
+  },
+  "projects": {
+    "travel-map": {
+      "name": "意大利瑞士旅行地图",
+      "url": "http://localhost:8080/index.html",
+      "testUrl": "http://localhost:8080/test-with-chrome-mcp.html",
+      "description": "交互式旅行地图项目，使用Leaflet和Tailwind CSS"
+    }
+  }
+}
+
