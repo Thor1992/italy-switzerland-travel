@@ -1,24 +1,9 @@
-<!DOCTYPE html>
 <html class="scroll-smooth" lang="zh-CN"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🇮🇹🇨🇭 意大利瑞士旅行每日路线地图</title>
-    <meta name="description" content="意大利瑞士13天旅行计划，包含详细路线地图、预订管理和交互式导航。涵盖罗马、佛罗伦萨、威尼斯、米兰、因特拉肯等城市。">
-    <meta name="keywords" content="意大利旅行,瑞士旅行,欧洲旅行,旅行规划,罗马,佛罗伦萨,威尼斯,米兰,因特拉肯,旅行地图">
-    <meta name="author" content="AI进化论-花生">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="意大利瑞士旅行每日路线地图">
-    <meta property="og:description" content="完整的13天旅行计划，包含交互式地图和预订管理">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="zh_CN">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="意大利瑞士旅行每日路线地图">
-    <meta name="twitter:description" content="完整的13天旅行计划，包含交互式地图和预订管理">
     <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect">
     <link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Playfair+Display:wght@400;700&amp;family=Roboto:wght@300;400;500" rel="stylesheet">
-    <link rel="preconnect" href="https://unpkg.com">
-    <link rel="dns-prefetch" href="https://b.tile.openstreetmap.org">
-    <link rel="dns-prefetch" href="https://c.tile.openstreetmap.org">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <!-- Leaflet CSS -->
@@ -671,197 +656,6 @@
             .booking-item:active {
                 background-color: var(--background-color);
                 transform: scale(0.98);
-            }
-        }
-        
-        /* 航班信息样式 */
-        .transport-subtitle {
-            font-size: 14px;
-            color: var(--secondary-color);
-            font-weight: 400;
-            margin-top: 4px;
-        }
-        
-        .flight-info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 12px;
-        }
-        
-        .flight-segment {
-            background: var(--background-color);
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .flight-segment h5 {
-            color: var(--primary-color);
-            font-size: 16px;
-            font-weight: 600;
-            margin: 0 0 12px 0;
-        }
-        
-        .flight-segment p {
-            margin: 6px 0;
-            font-size: 14px;
-            color: var(--text-color);
-        }
-        
-        /* 乘客信息样式 */
-        .passenger-list {
-            margin-top: 12px;
-        }
-        
-        .passenger-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background: var(--background-color);
-            border-radius: 8px;
-            margin-bottom: 8px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .passenger-name {
-            font-weight: 600;
-            color: var(--text-color);
-            font-size: 14px;
-        }
-        
-        .passenger-seat {
-            color: var(--primary-color);
-            font-weight: 500;
-            font-size: 14px;
-        }
-        
-        .passenger-ticket {
-            color: var(--secondary-color);
-            font-size: 12px;
-            font-family: monospace;
-        }
-        
-        /* 条形码滑动样式 */
-        .barcode-carousel {
-            margin-top: 16px;
-        }
-        
-        .barcode-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px;
-            background: var(--background-color);
-            border: 1px solid var(--border-color);
-        }
-        
-        .barcode-slide {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .barcode-slide.active {
-            display: block;
-        }
-        
-        .barcode-slide img {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .barcode-placeholder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 200px;
-            background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235));
-            border: 2px dashed rgb(209, 213, 219);
-            border-radius: 8px;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .placeholder-content {
-            text-align: center;
-        }
-        
-        .barcode-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 16px;
-            padding: 0 20px;
-        }
-        
-        .barcode-prev, .barcode-next {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .barcode-prev:hover, .barcode-next:hover {
-            background: var(--accent-color);
-            transform: scale(1.1);
-        }
-        
-        .barcode-indicators {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--border-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .indicator.active {
-            background: var(--primary-color);
-            transform: scale(1.2);
-        }
-        
-        .indicator:hover {
-            background: var(--accent-color);
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .flight-info-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            
-            .passenger-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-            
-            .barcode-controls {
-                padding: 0 10px;
-            }
-            
-            .barcode-prev, .barcode-next {
-                width: 36px;
-                height: 36px;
-                font-size: 16px;
             }
         }
     </style>
@@ -1573,17 +1367,17 @@
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">flight</span>
-                                    <span class="text-[var(--text-color)]">07:25 北京起飞</span>
+                                    <span>07:25 北京起飞</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">flight_land</span>
-                                    <span class="text-[var(--text-color)]">11:35 迪拜到达</span>
+                                    <span>11:35 迪拜到达</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">attach_money</span>
-                                    <span class="text-[var(--text-color)]">4274元 机票费用</span>
+                                    <span>4274元 机票费用</span>
                                 </div>
                             
                         </div>
@@ -1645,7 +1439,6 @@
                             <div class="transport-header">
                                 <div class="transport-name">
                                     ✈️ 北京至迪拜 - 已预订
-                                    <div class="transport-subtitle">07:25-11:35</div>
                                 </div>
                                 
                                     <div class="transport-expand" onclick="toggleTransportBooking('transport-1-0725')">
@@ -1658,127 +1451,20 @@
                     
                         <div class="booking-details" id="transport-1-0725-details">
                             <div class="booking-details-content">
-                                <!-- 航班信息 -->
                                 <div class="booking-info">
-                                    <h4>航班信息</h4>
-                                    <div class="flight-info-grid">
-                                        <div class="flight-segment">
-                                            <h5>第一段：EK 309</h5>
-                                            <p><strong>出发:</strong> 北京首都国际机场 (PEK) T3</p>
-                                            <p><strong>到达:</strong> 迪拜国际机场 (DXB) T3</p>
-                                            <p><strong>时间:</strong> 2025年10月2日 07:25 - 11:35</p>
-                                            <p><strong>舱位:</strong> Economy Flex</p>
-                                            <p><strong>行李:</strong> 30公斤</p>
-                                        </div>
-                                        <div class="flight-segment">
-                                            <h5>第二段：EK 099</h5>
-                                            <p><strong>出发:</strong> 迪拜国际机场 (DXB) T3</p>
-                                            <p><strong>到达:</strong> 罗马菲乌米奇诺机场 (FCO) T3</p>
-                                            <p><strong>时间:</strong> 2025年10月3日 03:30 - 07:40</p>
-                                            <p><strong>舱位:</strong> Economy Flex</p>
-                                            <p><strong>行李:</strong> 30公斤</p>
-                                        </div>
-                                    </div>
+                                    <h4>预订详情</h4>
+                                    <p><strong>时间:</strong> 07:25</p>
+                                    <p><strong>路线:</strong> 北京至迪拜 - 已预订</p>
+                                    <p><strong>状态:</strong> 已确认</p>
+                                    <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
-                                
-                                <!-- 乘客信息 -->
-                                <div class="booking-info">
-                                    <h4>乘客信息</h4>
-                                    <div class="passenger-list">
-                                        <div class="passenger-item">
-                                            <span class="passenger-name">乘客1</span>
-                                            <span class="passenger-seat">45C / 45B</span>
-                                            <span class="passenger-ticket">176 2393398841-42</span>
-                                        </div>
-                                        <div class="passenger-item">
-                                            <span class="passenger-name">乘客2</span>
-                                            <span class="passenger-seat">45C / 45B</span>
-                                            <span class="passenger-ticket">176 2393398843-44</span>
-                                        </div>
-                                        <div class="passenger-item">
-                                            <span class="passenger-name">乘客3</span>
-                                            <span class="passenger-seat">45C / 45B</span>
-                                            <span class="passenger-ticket">176 2392301653-54</span>
-                                        </div>
-                                        <div class="passenger-item">
-                                            <span class="passenger-name">乘客4</span>
-                                            <span class="passenger-seat">45C / 45B</span>
-                                            <span class="passenger-ticket">176 2393402728-29</span>
-                                        </div>
-                                        <div class="passenger-item">
-                                            <span class="passenger-name">乘客5</span>
-                                            <span class="passenger-seat">45C / 45B</span>
-                                            <span class="passenger-ticket">176 2392301293-94</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- 条形码截图滑动部分 -->
                                 <div class="booking-screenshot">
-                                    <h4>登机牌条形码</h4>
-                                    <div class="barcode-carousel">
-                                        <div class="barcode-container">
-                                            <div class="barcode-slide active">
-                                                <img src="assets/bookings/flights/Oct2-Beijing-Rome-北京到罗马/passenger-1.png" alt="乘客1登机牌" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                                <div class="barcode-placeholder" style="display: none;">
-                                                    <div class="placeholder-content">
-                                                        <div style="font-size: 24px; margin-bottom: 8px;">🎫</div>
-                                                        <div style="font-size: 14px; font-weight: 500; color: var(--text-color);">乘客1登机牌</div>
-                                                        <div style="font-size: 12px; color: var(--secondary-color); margin-top: 4px;">票号: 176 2393398841-42</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="barcode-slide">
-                                                <img src="assets/bookings/flights/Oct2-Beijing-Rome-北京到罗马/passenger-2.png" alt="乘客2登机牌" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                                <div class="barcode-placeholder" style="display: none;">
-                                                    <div class="placeholder-content">
-                                                        <div style="font-size: 24px; margin-bottom: 8px;">🎫</div>
-                                                        <div style="font-size: 14px; font-weight: 500; color: var(--text-color);">乘客2登机牌</div>
-                                                        <div style="font-size: 12px; color: var(--secondary-color); margin-top: 4px;">票号: 176 2393398843-44</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="barcode-slide">
-                                                <img src="assets/bookings/flights/Oct2-Beijing-Rome-北京到罗马/passenger-3.png" alt="乘客3登机牌" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                                <div class="barcode-placeholder" style="display: none;">
-                                                    <div class="placeholder-content">
-                                                        <div style="font-size: 24px; margin-bottom: 8px;">🎫</div>
-                                                        <div style="font-size: 14px; font-weight: 500; color: var(--text-color);">乘客3登机牌</div>
-                                                        <div style="font-size: 12px; color: var(--secondary-color); margin-top: 4px;">票号: 176 2392301653-54</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="barcode-slide">
-                                                <img src="assets/bookings/flights/Oct2-Beijing-Rome-北京到罗马/passenger-4.png" alt="乘客4登机牌" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                                <div class="barcode-placeholder" style="display: none;">
-                                                    <div class="placeholder-content">
-                                                        <div style="font-size: 24px; margin-bottom: 8px;">🎫</div>
-                                                        <div style="font-size: 14px; font-weight: 500; color: var(--text-color);">乘客4登机牌</div>
-                                                        <div style="font-size: 12px; color: var(--secondary-color); margin-top: 4px;">票号: 176 2393402728-29</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="barcode-slide">
-                                                <img src="assets/bookings/flights/Oct2-Beijing-Rome-北京到罗马/passenger-5.png" alt="乘客5登机牌" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                                <div class="barcode-placeholder" style="display: none;">
-                                                    <div class="placeholder-content">
-                                                        <div style="font-size: 24px; margin-bottom: 8px;">🎫</div>
-                                                        <div style="font-size: 14px; font-weight: 500; color: var(--text-color);">乘客5登机牌</div>
-                                                        <div style="font-size: 12px; color: var(--secondary-color); margin-top: 4px;">票号: 176 2392301293-94</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="barcode-controls">
-                                            <button class="barcode-prev" onclick="changeBarcodeSlide(-1, 'transport-1-0725')">‹</button>
-                                            <div class="barcode-indicators">
-                                                <span class="indicator active" onclick="setBarcodeSlide(0, 'transport-1-0725')"></span>
-                                                <span class="indicator" onclick="setBarcodeSlide(1, 'transport-1-0725')"></span>
-                                                <span class="indicator" onclick="setBarcodeSlide(2, 'transport-1-0725')"></span>
-                                                <span class="indicator" onclick="setBarcodeSlide(3, 'transport-1-0725')"></span>
-                                                <span class="indicator" onclick="setBarcodeSlide(4, 'transport-1-0725')"></span>
-                                            </div>
-                                            <button class="barcode-next" onclick="changeBarcodeSlide(1, 'transport-1-0725')">›</button>
+                                    <img src="assets/bookings/trains/day1-北京至迪拜/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
+                                        <div>
+                                            <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
+                                            <div style="font-size: 14px; font-weight: 500; color: var(--text-color);">交通预订截图</div>
+                                            <div style="font-size: 12px; color: var(--secondary-color); margin-top: 4px;">请将截图放入对应文件夹</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1817,17 +1503,17 @@
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">directions_walk</span>
-                                    <span class="text-[var(--text-color)]">25分钟 总步行时间</span>
+                                    <span>25分钟 总步行时间</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">attractions</span>
-                                    <span class="text-[var(--text-color)]">4个 主要景点</span>
+                                    <span>4个 主要景点</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">schedule</span>
-                                    <span class="text-[var(--text-color)]">7小时 游览时间</span>
+                                    <span>7小时 游览时间</span>
                                 </div>
                             
                         </div>
@@ -1864,21 +1550,21 @@
                             <div class="ticket-carousel-container" id="ticket-2-梵蒂冈博物馆-container">
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct3-vatican-museum-梵蒂冈博物馆/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day2-vatican-museum-梵蒂冈博物馆/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 1
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct3-vatican-museum-梵蒂冈博物馆/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day2-vatican-museum-梵蒂冈博物馆/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 2
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct3-vatican-museum-梵蒂冈博物馆/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day2-vatican-museum-梵蒂冈博物馆/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 3
                                         </div>
@@ -1910,21 +1596,21 @@
                             <div class="ticket-carousel-container" id="ticket-2-圣彼得大教堂-container">
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct3-st-peters-basilica-圣彼得大教堂/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day2-st-peters-basilica-圣彼得大教堂/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 1
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct3-st-peters-basilica-圣彼得大教堂/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day2-st-peters-basilica-圣彼得大教堂/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 2
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct3-st-peters-basilica-圣彼得大教堂/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day2-st-peters-basilica-圣彼得大教堂/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 3
                                         </div>
@@ -2016,7 +1702,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct3-迪拜起飞/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day2-迪拜起飞/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -2072,7 +1758,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct3-酒店寄存行李/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day2-酒店寄存行李/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -2162,7 +1848,7 @@
                                 
                                 <div class="booking-screenshot">
                                     
-                                        <img src="assets/bookings/hotels/Oct3-Rome-san-peter-lorys-罗马圣彼得洛里斯/booking-confirmation.png" alt="酒店预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        <img src="assets/bookings/hotels/day2-rome-san-peter-lorys-罗马圣彼得洛里斯/booking-confirmation.png" alt="酒店预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                         <div style="display: none; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, #F3F4F6, #E5E7EB); border: 2px dashed #D1D5DB; border-radius: 8px; text-align: center; padding: 20px;">
                                             <div>
                                                 <div style="font-size: 24px; margin-bottom: 8px;">📸</div>
@@ -2187,17 +1873,17 @@
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">directions_walk</span>
-                                    <span class="text-[var(--text-color)]">45分钟 总步行时间</span>
+                                    <span>45分钟 总步行时间</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">attractions</span>
-                                    <span class="text-[var(--text-color)]">6个 主要景点</span>
+                                    <span>6个 主要景点</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">schedule</span>
-                                    <span class="text-[var(--text-color)]">12小时 游览时间</span>
+                                    <span>12小时 游览时间</span>
                                 </div>
                             
                         </div>
@@ -2234,21 +1920,21 @@
                             <div class="ticket-carousel-container" id="ticket-3-斗兽场-container">
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct4-colosseum-斗兽场/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day3-colosseum-斗兽场/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 1
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct4-colosseum-斗兽场/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day3-colosseum-斗兽场/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 2
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct4-colosseum-斗兽场/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day3-colosseum-斗兽场/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 3
                                         </div>
@@ -2340,21 +2026,21 @@
                             <div class="ticket-carousel-container" id="ticket-3-万神殿-container">
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct4-pantheon-万神殿/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day3-pantheon-万神殿/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 1
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct4-pantheon-万神殿/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day3-pantheon-万神殿/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 2
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct4-pantheon-万神殿/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day3-pantheon-万神殿/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 3
                                         </div>
@@ -2476,7 +2162,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct4-Rome-Florence-罗马到佛罗伦萨/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day3-rome-florence-罗马到佛罗伦萨/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -2532,7 +2218,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct4-Rome-Florence-罗马到佛罗伦萨/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day3-rome-florence-罗马到佛罗伦萨/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -2577,17 +2263,17 @@
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">directions_walk</span>
-                                    <span class="text-[var(--text-color)]">35分钟 总步行时间</span>
+                                    <span>35分钟 总步行时间</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">attractions</span>
-                                    <span class="text-[var(--text-color)]">8个 主要景点</span>
+                                    <span>8个 主要景点</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">schedule</span>
-                                    <span class="text-[var(--text-color)]">13小时 游览时间</span>
+                                    <span>13小时 游览时间</span>
                                 </div>
                             
                         </div>
@@ -2791,7 +2477,7 @@
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">attractions</span>
-                                    <span class="text-[var(--text-color)]">1个 主要景点</span>
+                                    <span>1个 主要景点</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
@@ -2857,7 +2543,7 @@
                         <div class="transport-content">
                             <div class="transport-header">
                                 <div class="transport-name">
-                                    🚌 CiaoFlorence 报刊亭集合点出发 - 已预订(飞猪)
+                                    🚌 Ciaoflorence 报刊亭集合点出发 - 已预订(飞猪)
                                 </div>
                                 
                                     <div class="transport-expand" onclick="toggleTransportBooking('transport-5-0800')">
@@ -2873,12 +2559,12 @@
                                 <div class="booking-info">
                                     <h4>预订详情</h4>
                                     <p><strong>时间:</strong> 08:00</p>
-                                    <p><strong>路线:</strong> CiaoFlorence 报刊亭集合点出发 - 已预订(飞猪)</p>
+                                    <p><strong>路线:</strong> Ciaoflorence 报刊亭集合点出发 - 已预订(飞猪)</p>
                                     <p><strong>状态:</strong> 已确认</p>
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct6-CiaoFlorence 报刊亭集合点出发/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day5-Ciaoflorence 报刊亭集合点出发/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -2938,7 +2624,7 @@
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">attractions</span>
-                                    <span class="text-[var(--text-color)]">5个 主要景点</span>
+                                    <span>5个 主要景点</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
@@ -3105,7 +2791,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct7-Florence-Venice-佛罗伦萨到威尼斯/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day6-florence-venice-佛罗伦萨到威尼斯/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -3161,7 +2847,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct7-Florence-Venice-佛罗伦萨到威尼斯/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day6-florence-venice-佛罗伦萨到威尼斯/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -3205,17 +2891,17 @@
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">directions_walk</span>
-                                    <span class="text-[var(--text-color)]">30分钟 总步行时间</span>
+                                    <span>30分钟 总步行时间</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">attractions</span>
-                                    <span class="text-[var(--text-color)]">5个 主要景点</span>
+                                    <span>5个 主要景点</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">schedule</span>
-                                    <span class="text-[var(--text-color)]">9小时 游览时间</span>
+                                    <span>9小时 游览时间</span>
                                 </div>
                             
                         </div>
@@ -3252,21 +2938,21 @@
                             <div class="ticket-carousel-container" id="ticket-7-贡多拉游船-container">
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct8-贡多拉游船/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day7-贡多拉游船/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 1
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct8-贡多拉游船/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day7-贡多拉游船/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 2
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct8-贡多拉游船/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day7-贡多拉游船/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 3
                                         </div>
@@ -3463,7 +3149,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct8-Venice-Milan-威尼斯到米兰/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day7-venice-milan-威尼斯到米兰/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -3519,7 +3205,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct8-Venice-Milan-威尼斯到米兰/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day7-venice-milan-威尼斯到米兰/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -3548,12 +3234,12 @@
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">info</span>
-                                    <span class="text-[var(--text-color)]">3小时 登顶游览</span>
+                                    <span>3小时 登顶游览</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">attractions</span>
-                                    <span class="text-[var(--text-color)]">1个 主要景点</span>
+                                    <span>1个 主要景点</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
@@ -3670,7 +3356,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct9-Milan-spiez-米兰到施皮茨/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day8-milan-spiez-米兰到施皮茨/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -3741,7 +3427,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct9-Milan-spiez-米兰到施皮茨/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day8-milan-spiez-米兰到施皮茨/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -3801,17 +3487,17 @@
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">info</span>
-                                    <span class="text-[var(--text-color)]">1小时 总交通时间</span>
+                                    <span>1小时 总交通时间</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">attractions</span>
-                                    <span class="text-[var(--text-color)]">4个 主要景点</span>
+                                    <span>4个 主要景点</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">schedule</span>
-                                    <span class="text-[var(--text-color)]">14小时 游览时间</span>
+                                    <span>14小时 游览时间</span>
                                 </div>
                             
                         </div>
@@ -3863,21 +3549,21 @@
                             <div class="ticket-carousel-container" id="ticket-9-First山游玩项目-container">
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct10-First山游玩项目/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day9-First山游玩项目/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 1
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct10-First山游玩项目/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day9-First山游玩项目/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 2
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct10-First山游玩项目/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day9-First山游玩项目/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 3
                                         </div>
@@ -3984,7 +3670,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct10-火车回因特拉肯 (20:17)/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day9-火车回因特拉肯 (20:17)/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -4029,12 +3715,12 @@
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">info</span>
-                                    <span class="text-[var(--text-color)]">1.5小时 总交通时间</span>
+                                    <span>1.5小时 总交通时间</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">attractions</span>
-                                    <span class="text-[var(--text-color)]">4个 主要景点</span>
+                                    <span>4个 主要景点</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
@@ -4091,21 +3777,21 @@
                             <div class="ticket-carousel-container" id="ticket-10-布里恩茨蒸汽火车-container">
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct11-brienz-steam-train-布里恩茨蒸汽火车/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day10-brienz-steam-train-布里恩茨蒸汽火车/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 1
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct11-brienz-steam-train-布里恩茨蒸汽火车/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day10-brienz-steam-train-布里恩茨蒸汽火车/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 2
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct11-brienz-steam-train-布里恩茨蒸汽火车/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day10-brienz-steam-train-布里恩茨蒸汽火车/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 3
                                         </div>
@@ -4137,21 +3823,21 @@
                             <div class="ticket-carousel-container" id="ticket-10-布里恩茨湖游船-container">
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct11-布里恩茨湖游船/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day10-布里恩茨湖游船/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 1
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct11-布里恩茨湖游船/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day10-布里恩茨湖游船/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 2
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct11-布里恩茨湖游船/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day10-布里恩茨湖游船/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 3
                                         </div>
@@ -4213,7 +3899,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct11-Interlaken-brienz-因特拉肯到布里恩茨/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day10-interlaken-brienz-因特拉肯到布里恩茨/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -4288,12 +3974,12 @@
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">info</span>
-                                    <span class="text-[var(--text-color)]">7小时 少女峰游览</span>
+                                    <span>7小时 少女峰游览</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">info</span>
-                                    <span class="text-[var(--text-color)]">2组 团队分组</span>
+                                    <span>2组 团队分组</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
@@ -4335,21 +4021,21 @@
                             <div class="ticket-carousel-container" id="ticket-11-少女峰-container">
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct12-jungfraujoch-少女峰/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day11-jungfraujoch-少女峰/booking-confirmation.png" alt="票务截图 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 1
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct12-jungfraujoch-少女峰/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day11-jungfraujoch-少女峰/ticket-1.png" alt="票务截图 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 2
                                         </div>
                                     </div>
                                 
                                     <div class="ticket-image">
-                                        <img src="assets/bookings/tickets/Oct12-jungfraujoch-少女峰/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
+                                        <img src="assets/bookings/tickets/day11-jungfraujoch-少女峰/ticket-2.png" alt="票务截图 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display: none;">
                                         <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; color: var(--text-color); font-size: 12px;">
                                             票务截图 3
                                         </div>
@@ -4426,7 +4112,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct12-Interlaken-jungfraujoch-因特拉肯到少女峰/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day11-interlaken-jungfraujoch-因特拉肯到少女峰/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -4497,7 +4183,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct12-Interlaken-jungfraujoch-因特拉肯到少女峰/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day11-interlaken-jungfraujoch-因特拉肯到少女峰/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -4572,12 +4258,12 @@
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">info</span>
-                                    <span class="text-[var(--text-color)]">2组 团队分组</span>
+                                    <span>2组 团队分组</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
                                     <span class="material-symbols-outlined text-2xl text-[var(--accent-color)]">attractions</span>
-                                    <span class="text-[var(--text-color)]">5个 主要景点</span>
+                                    <span>5个 主要景点</span>
                                 </div>
                             
                                 <div class="flex items-center gap-4">
@@ -4724,7 +4410,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct13-(3人组) 迪拜起飞/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day12-(3人组) 迪拜起飞/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -4810,7 +4496,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct13-(2人组) 到达机场/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day12-(2人组) 到达机场/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -4851,7 +4537,7 @@
                                     <p><strong>备注:</strong> 请提前30分钟到达</p>
                                 </div>
                                 <div class="booking-screenshot">
-                                    <img src="assets/bookings/trains/Oct13-(剩余2人) 飞机日内瓦起飞/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <img src="assets/bookings/trains/day12-(剩余2人) 飞机日内瓦起飞/booking-confirmation.png" alt="交通预订确认单" style="width: 100%; height: auto; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; display: none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div style="display: flex; align-items: center; justify-content: center; height: 120px; background: linear-gradient(135deg, rgb(243, 244, 246), rgb(229, 231, 235)); border: 2px dashed rgb(209, 213, 219); border-radius: 8px; text-align: center; padding: 20px;">
                                         <div>
                                             <div style="font-size: 24px; margin-bottom: 8px;">🚂</div>
@@ -5152,7 +4838,7 @@
                     ],
                     transport: [
                         { time: "07:00", icon: "🌅", route: "早起出发 - Tips: 带🍞等早餐" },
-                        { time: "08:00", icon: "🚌", route: "CiaoFlorence 报刊亭集合点出发 - 已预订(飞猪)" },
+                        { time: "08:00", icon: "🚌", route: "Ciaoflorence 报刊亭集合点出发 - 已预订(飞猪)" },
                         { time: "19:00", icon: "🍽️", route: "返回佛罗伦萨晚餐" }
                     ],
                     hotel: "II Borgo del Duomo",
@@ -5391,54 +5077,54 @@
             if (type === 'hotel') {
                 // 酒店文件夹命名规则
                 const hotelMap = {
-                    2: 'Oct3-Rome-san-peter-lorys-罗马圣彼得洛里斯',
-                    3: 'Oct4-Rome-san-peter-lorys-罗马圣彼得洛里斯',
-                    4: 'Oct5-Florence-borgo-duomo-佛罗伦萨博尔戈大教堂',
-                    5: 'Oct6-Florence-borgo-duomo-佛罗伦萨博尔戈大教堂',
-                    6: 'Oct7-Florence-borgo-duomo-佛罗伦萨博尔戈大教堂',
-                    7: 'Oct8-Venice-arham-guesthouse-威尼斯阿勒姆宾馆',
-                    8: 'Oct9-Milan-unknown-米兰未知酒店',
-                    9: 'Oct10-Interlaken-savoy-26-因特拉肯萨沃伊26',
-                    10: 'Oct11-Interlaken-savoy-26-因特拉肯萨沃伊26',
-                    11: 'Oct12-Interlaken-savoy-26-因特拉肯萨沃伊26',
-                    12: 'Oct13-Lucerne-ambassador-卢塞恩大使酒店'
+                    2: 'day2-rome-san-peter-lorys-罗马圣彼得洛里斯',
+                    3: 'day3-rome-san-peter-lorys-罗马圣彼得洛里斯',
+                    4: 'day4-florence-borgo-duomo-佛罗伦萨博尔戈大教堂',
+                    5: 'day5-florence-borgo-duomo-佛罗伦萨博尔戈大教堂',
+                    6: 'day6-florence-borgo-duomo-佛罗伦萨博尔戈大教堂',
+                    7: 'day7-venice-arham-guesthouse-威尼斯阿勒姆宾馆',
+                    8: 'day8-milan-unknown-米兰未知酒店',
+                    9: 'day9-interlaken-savoy-26-因特拉肯萨沃伊26',
+                    10: 'day10-interlaken-savoy-26-因特拉肯萨沃伊26',
+                    11: 'day11-interlaken-savoy-26-因特拉肯萨沃伊26',
+                    12: 'day12-lucerne-ambassador-卢塞恩大使酒店'
                 };
                 folderName = hotelMap[dayId] || `${dayPrefix}-${itemName}`;
                 return `${basePath}/hotels/${folderName}/${imageType}.png`;
             } else if (type === 'flight') {
                 // 机票文件夹命名规则
                 const flightMap = {
-                    1: 'Oct2-Beijing-Rome-北京到罗马',
-                    11: 'Oct12-Geneva-Beijing-日内瓦到北京-3人组',
-                    12: 'Oct13-Montreux-Beijing-蒙特勒到北京-2人组'
+                    1: 'day1-beijing-rome-北京到罗马',
+                    11: 'day11-geneva-beijing-日内瓦到北京-3人组',
+                    12: 'day12-montreux-beijing-蒙特勒到北京-2人组'
                 };
                 folderName = flightMap[dayId] || `${dayPrefix}-${itemName}`;
                 return `${basePath}/flights/${folderName}/${imageType}.png`;
             } else if (type === 'train') {
                 // 火车票文件夹命名规则
                 const trainMap = {
-                    3: 'Oct4-Rome-Florence-罗马到佛罗伦萨',
-                    6: 'Oct7-Florence-Venice-佛罗伦萨到威尼斯',
-                    7: 'Oct8-Venice-Milan-威尼斯到米兰',
-                    8: 'Oct9-Milan-spiez-米兰到施皮茨',
-                    10: 'Oct11-Interlaken-brienz-因特拉肯到布里恩茨',
-                    11: 'Oct12-Interlaken-jungfraujoch-因特拉肯到少女峰'
+                    3: 'day3-rome-florence-罗马到佛罗伦萨',
+                    6: 'day6-florence-venice-佛罗伦萨到威尼斯',
+                    7: 'day7-venice-milan-威尼斯到米兰',
+                    8: 'day8-milan-spiez-米兰到施皮茨',
+                    10: 'day10-interlaken-brienz-因特拉肯到布里恩茨',
+                    11: 'day11-interlaken-jungfraujoch-因特拉肯到少女峰'
                 };
                 folderName = trainMap[dayId] || `${dayPrefix}-${itemName}`;
                 return `${basePath}/trains/${folderName}/${imageType}.png`;
             } else if (type === 'ticket') {
                 // 景点门票文件夹命名规则
                 const ticketMap = {
-                    '梵蒂冈博物馆': 'Oct3-vatican-museum-梵蒂冈博物馆',
-                    '圣彼得大教堂': 'Oct3-st-peters-basilica-圣彼得大教堂',
-                    '斗兽场': 'Oct4-colosseum-斗兽场',
-                    '万神殿': 'Oct4-pantheon-万神殿',
-                    '威尼斯贡多拉': 'Oct8-gondola-Venice-威尼斯贡多拉',
-                    '米兰大教堂': 'Oct9-duomo-Milan-米兰大教堂',
-                    'First山': 'Oct10-first-mountain-First山',
-                    '布里恩茨蒸汽火车': 'Oct11-brienz-steam-train-布里恩茨蒸汽火车',
-                    '少女峰': 'Oct12-jungfraujoch-少女峰',
-                    '西庸城堡': 'Oct13-chillon-castle-西庸城堡'
+                    '梵蒂冈博物馆': 'day2-vatican-museum-梵蒂冈博物馆',
+                    '圣彼得大教堂': 'day2-st-peters-basilica-圣彼得大教堂',
+                    '斗兽场': 'day3-colosseum-斗兽场',
+                    '万神殿': 'day3-pantheon-万神殿',
+                    '威尼斯贡多拉': 'day7-gondola-venice-威尼斯贡多拉',
+                    '米兰大教堂': 'day8-duomo-milan-米兰大教堂',
+                    'First山': 'day9-first-mountain-First山',
+                    '布里恩茨蒸汽火车': 'day10-brienz-steam-train-布里恩茨蒸汽火车',
+                    '少女峰': 'day11-jungfraujoch-少女峰',
+                    '西庸城堡': 'day12-chillon-castle-西庸城堡'
                 };
                 folderName = ticketMap[itemName] || `${dayPrefix}-${itemName}`;
                 return `${basePath}/tickets/${folderName}/${imageType}.png`;
@@ -5770,63 +5456,6 @@
                 }
             }
         }
-        
-        // 条形码滑动功能
-        let barcodeSlides = {};
-        
-        function initBarcodeCarousel(bookingId) {
-            if (!barcodeSlides[bookingId]) {
-                barcodeSlides[bookingId] = {
-                    currentSlide: 0,
-                    totalSlides: 5
-                };
-            }
-        }
-        
-        function changeBarcodeSlide(direction, bookingId) {
-            initBarcodeCarousel(bookingId);
-            const carousel = barcodeSlides[bookingId];
-            const slides = document.querySelectorAll(`#${bookingId}-details .barcode-slide`);
-            const indicators = document.querySelectorAll(`#${bookingId}-details .indicator`);
-            
-            if (slides.length === 0) return;
-            
-            // 移除当前活动状态
-            slides[carousel.currentSlide].classList.remove('active');
-            indicators[carousel.currentSlide].classList.remove('active');
-            
-            // 计算新索引
-            carousel.currentSlide += direction;
-            if (carousel.currentSlide >= carousel.totalSlides) {
-                carousel.currentSlide = 0;
-            } else if (carousel.currentSlide < 0) {
-                carousel.currentSlide = carousel.totalSlides - 1;
-            }
-            
-            // 添加新的活动状态
-            slides[carousel.currentSlide].classList.add('active');
-            indicators[carousel.currentSlide].classList.add('active');
-        }
-        
-        function setBarcodeSlide(slideIndex, bookingId) {
-            initBarcodeCarousel(bookingId);
-            const carousel = barcodeSlides[bookingId];
-            const slides = document.querySelectorAll(`#${bookingId}-details .barcode-slide`);
-            const indicators = document.querySelectorAll(`#${bookingId}-details .indicator`);
-            
-            if (slides.length === 0 || slideIndex < 0 || slideIndex >= carousel.totalSlides) return;
-            
-            // 移除当前活动状态
-            slides[carousel.currentSlide].classList.remove('active');
-            indicators[carousel.currentSlide].classList.remove('active');
-            
-            // 设置新索引
-            carousel.currentSlide = slideIndex;
-            
-            // 添加新的活动状态
-            slides[carousel.currentSlide].classList.add('active');
-            indicators[carousel.currentSlide].classList.add('active');
-        }
 
         // 票务轮播控制功能
         function initTicketCarousel(ticketId) {
@@ -5964,28 +5593,6 @@
                 const isDark = body.classList.contains('dark');
                 iconElement.textContent = isDark ? 'light_mode' : 'dark_mode';
             }
-            
-            // 添加强制重置主题的功能（用于测试）
-            window.resetTheme = function() {
-                localStorage.removeItem('theme');
-                body.classList.remove('dark');
-                updateAllCards();
-                if (iconElement) {
-                    iconElement.textContent = 'dark_mode';
-                }
-                console.log('主题已重置为亮色模式');
-            };
-            
-            // 添加强制切换到亮色模式的功能
-            window.forceLightMode = function() {
-                localStorage.setItem('theme', 'light');
-                body.classList.remove('dark');
-                updateAllCards();
-                if (iconElement) {
-                    iconElement.textContent = 'dark_mode';
-                }
-                console.log('已强制切换到亮色模式，背景颜色: rgb(245,239,230)');
-            };
         }
 
         // 渲染所有天数
@@ -6237,7 +5844,7 @@
                 observer.observe(section);
             });
             
-            // 初始化所有地图 - 延迟加载优化性能
+            // 初始化所有地图
             setTimeout(() => {
                 travelData.days.forEach(day => {
                     if (day.attractions && day.attractions.length > 0) {
@@ -6249,16 +5856,11 @@
                             .filter(attraction => attraction !== null);
                         
                         if (attractionsWithCoords.length > 0) {
-                            // 使用requestIdleCallback优化性能
-                            if (window.requestIdleCallback) {
-                                requestIdleCallback(() => initMap(day.id, attractionsWithCoords));
-                            } else {
-                                setTimeout(() => initMap(day.id, attractionsWithCoords), 0);
-                            }
+                            initMap(day.id, attractionsWithCoords);
                         }
                     }
                 });
-            }, 200);
+            }, 100);
         });
     </script>
 

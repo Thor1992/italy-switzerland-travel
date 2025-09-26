@@ -26,7 +26,7 @@ def validate_html():
         else:
             print("❌ HEAD 标签不完整")
             
-        if '<body>' in content and '</body>' in content:
+        if '<body' in content and '</body>' in content:
             print("✅ BODY 标签完整")
         else:
             print("❌ BODY 标签不完整")
@@ -35,14 +35,14 @@ def validate_html():
         
         # 检查JavaScript代码块
         js_start = content.find('<script>')
-        js_end = content.find('</script>')
+        js_end = content.rfind('</script>')
         
         if js_start != -1 and js_end != -1:
             js_content = content[js_start+8:js_end]
             print("✅ JavaScript 代码块存在")
             
             # 检查关键对象
-            if 'travelData' in js_content:
+            if 'const travelData' in js_content or 'travelData =' in js_content:
                 print("✅ travelData 对象存在")
             else:
                 print("❌ travelData 对象缺失")

@@ -16,41 +16,41 @@
 │       ├── STRUCTURE-SUMMARY.md        # 预订结构总结
 │       ├── UPLOAD-SUMMARY.md           # 上传总结
 │       ├── flights/                    # 机票预订 (3个航班)
-│       │   ├── day1-beijing-rome-北京到罗马/
-│       │   ├── day11-geneva-beijing-日内瓦到北京-3人组/
-│       │   └── day12-montreux-beijing-蒙特勒到北京-2人组/
-│       ├── hotels/                     # 酒店预订 (10个酒店)
-│       │   ├── day2-rome-san-peter-lorys-罗马圣彼得洛里斯/
-│       │   ├── day3-rome-san-peter-lorys-罗马圣彼得洛里斯/
-│       │   ├── day4-florence-borgo-duomo-佛罗伦萨博尔戈大教堂/
-│       │   ├── day5-florence-borgo-duomo-佛罗伦萨博尔戈大教堂/
-│       │   ├── day6-florence-borgo-duomo-佛罗伦萨博尔戈大教堂/
-│       │   ├── day7-venice-arham-guesthouse-威尼斯阿勒姆宾馆/
-│       │   ├── day8-milan-unknown-米兰未知酒店/
-│       │   ├── day9-interlaken-savoy-26-因特拉肯萨沃伊26/
-│       │   ├── day10-interlaken-savoy-26-因特拉肯萨沃伊26/
-│       │   ├── day11-interlaken-savoy-26-因特拉肯萨沃伊26/
-│       │   └── day12-lucerne-ambassador-卢塞恩大使酒店/
+│       │   ├── Oct2-Beijing-Rome-北京到罗马/
+│       │   ├── Oct12-Geneva-Beijing-日内瓦到北京-3人组/
+│       │   └── Oct13-Montreux-Beijing-蒙特勒到北京-2人组/
+│       ├── hotels/                     # 酒店预订 (11个酒店)
+│       │   ├── Oct3-Rome-san-peter-lorys-罗马圣彼得洛里斯/
+│       │   ├── Oct3_Rome_SanPeterLorysAparts/
+│       │   ├── Oct4_Florence_IlBorgoDelDuomo/
+│       │   ├── Oct5_Florence_IlBorgoDelDuomo/
+│       │   ├── Oct6_Florence_IlBorgoDelDuomo/
+│       │   ├── Oct7_Florence_IlBorgoDelDuomo/
+│       │   ├── Oct8_Milan_CentralConvenientApartment/
+│       │   ├── Oct9_Interlaken_Savoy26/
+│       │   ├── Oct10_Interlaken_Savoy26/
+│       │   ├── Oct11_Interlaken_Savoy26/
+│       │   └── Oct12_Lucerne_AmbassadorSelfCheckinHotel/
 │       ├── trains/                     # 火车票 (10个路线)
-│       │   ├── day3-rome-florence-罗马到佛罗伦萨/
-│       │   ├── day6-florence-venice-佛罗伦萨到威尼斯/
-│       │   ├── day7-venice-milan-威尼斯到米兰/
-│       │   ├── day8-milan-spiez-米兰到施皮茨/
-│       │   ├── day8-spiez-interlaken-施皮茨到因特拉肯/
-│       │   ├── day10-interlaken-brienz-因特拉肯到布里恩茨/
-│       │   ├── day11-interlaken-jungfraujoch-因特拉肯到少女峰/
-│       │   ├── day11-interlaken-lucerne-因特拉肯到卢塞恩/
-│       │   ├── day12-lucerne-montreux-卢塞恩到蒙特勒/
-│       │   └── day12-montreux-geneva-蒙特勒到日内瓦/
-│       └── tickets/                    # 景点门票 (30+个景点)
-│           ├── day2-vatican-museum-梵蒂冈博物馆/
-│           ├── day2-st-peters-basilica-圣彼得大教堂/
-│           ├── day3-colosseum-斗兽场/
-│           ├── day7-gondola-venice-威尼斯贡多拉/
-│           ├── day8-duomo-milan-米兰大教堂/
-│           ├── day9-first-mountain-First山/
-│           ├── day10-brienz-steam-train-布里恩茨蒸汽火车/
-│           ├── day11-jungfraujoch-少女峰/
+│       │   ├── Oct5-Rome-Florence-罗马到佛罗伦萨/
+│       │   ├── Oct8-Florence-Venice-佛罗伦萨到威尼斯/
+│       │   ├── Oct8-Venice-Milan-威尼斯到米兰/
+│       │   ├── Oct9-Milan-spiez-米兰到施皮茨/
+│       │   ├── Oct9-spiez-Interlaken-施皮茨到因特拉肯/
+│       │   ├── Oct11-Interlaken-brienz-因特拉肯到布里恩茨/
+│       │   ├── Oct12-Interlaken-jungfraujoch-因特拉肯到少女峰/
+│       │   ├── Oct12-Interlaken-Lucerne-因特拉肯到卢塞恩/
+│       │   ├── Oct13-Lucerne-Montreux-卢塞恩到蒙特勒/
+│       │   └── Oct13-Montreux-Geneva-蒙特勒到日内瓦/
+│       └── tickets/                    # 景点门票 (43个景点)
+│           ├── Oct3-vatican-museum-梵蒂冈博物馆/
+│           ├── Oct3-st-peters-basilica-圣彼得大教堂/
+│           ├── Oct4-colosseum-斗兽场/
+│           ├── Oct8-gondola-Venice-威尼斯贡多拉/
+│           ├── Oct9-duomo-Milan-米兰大教堂/
+│           ├── Oct10-first-mountain-First山/
+│           ├── Oct11-brienz-steam-train-布里恩茨蒸汽火车/
+│           ├── Oct12-jungfraujoch-少女峰/
 │           └── ... (更多景点门票)
 ├── data/                               # 数据文件
 │   └── 意大利瑞士.xlsx                # 原始Excel数据文件
@@ -258,11 +258,56 @@ cat "assets/bookings/STRUCTURE-SUMMARY.md"
 
 ## 🔧 开发说明
 
+### 🚨 核心开发准则
+**在开发过程中遇到理解不清晰的地方，务必进行沟通都弄清楚之后再着手开发！**
+
+#### 沟通优先原则
+1. **疑问必问** - 任何不确定的需求、实现方式、设计意图都必须先沟通
+2. **理解确认** - 在开始编码前，确保完全理解用户的需求和期望
+3. **方案讨论** - 对于复杂功能，先提出实现方案供讨论，确认后再实施
+4. **及时反馈** - 开发过程中发现问题或需要澄清的地方，立即沟通
+5. **避免假设** - 不得基于个人理解进行假设性开发，必须以明确沟通为准
+
+### ⚠️ 最严格的开发要求
+**在可能对页面产生重大变更的情况时，不得擅作主张自行开发和改动，即使是修复 bug 可能带来重大的页面修改！**
+
+#### 重大变更判断标准
+以下情况被视为可能产生重大变更：
+1. **页面布局修改** - 改变现有组件的排列、大小、位置
+2. **功能逻辑变更** - 修改现有功能的交互逻辑或数据处理方式
+3. **样式系统更新** - 修改CSS变量、主题色彩、字体等设计系统
+4. **组件结构重构** - 改变HTML结构或组件层次关系
+5. **API接口变更** - 修改地图API调用方式或数据格式
+6. **文件结构重组** - 移动、重命名或删除重要文件
+
+#### 开发流程要求
+1. **沟通先行** - 遇到任何不明确的地方，必须先沟通确认，不得自行理解
+2. **事前确认** - 任何可能影响页面显示的修改都必须先征得用户明确同意
+3. **影响评估** - 详细说明修改可能带来的视觉和功能影响
+4. **方案讨论** - 提出具体的实现方案，与用户讨论确认后再开始编码
+5. **分步实施** - 将复杂修改分解为多个小步骤，每步都要确认
+6. **备份保护** - 重大修改前必须创建代码备份
+7. **测试验证** - 修改后必须验证页面显示和功能正常
+
+#### 例外情况
+以下情况可以立即修复，无需事前确认：
+1. **语法错误** - 明显的HTML、CSS、JavaScript语法错误
+2. **链接失效** - 修复失效的外部链接
+3. **文字错误** - 明显的拼写错误或错别字
+4. **格式问题** - 不影响功能的格式调整
+
 ### 文件组织原则
 1. **按功能分类** - 文档、源代码、数据、资源分离
 2. **清晰命名** - 使用描述性的文件名
 3. **版本控制** - 保持文件的历史版本
 4. **文档完整** - 每个功能都有对应文档
+
+### 沟通协作原则
+1. **主动沟通** - 遇到任何疑问或不确定的地方，主动询问澄清
+2. **明确理解** - 确保完全理解需求后再开始开发，避免返工
+3. **及时反馈** - 开发过程中发现问题或需要调整的地方，立即沟通
+4. **方案确认** - 对于复杂功能，先提供实现方案供讨论确认
+5. **避免假设** - 不得基于个人理解进行假设性开发
 
 ### 扩展建议
 1. **多语言支持** - 添加英文、意大利文版本
